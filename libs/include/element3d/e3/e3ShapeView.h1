@@ -1,0 +1,64 @@
+#ifndef __E3_SHAPE_VIEW__
+#define __E3_SHAPE_VIEW__
+
+#include "View.h"
+#include "ShapeRenderer.h"
+
+namespace e3
+{
+
+    class ShapeView : public e3::View
+    {
+    public:
+        ShapeView() : View()
+        {
+            mType = EViewType::ShapeView;
+            mBackgroundShapeRenderParam = new e3::ShapeRenderParams;
+            mBackgroundShapeRenderParam->BackgroundImage = nullptr;
+        }
+
+        void update() override
+        {
+            View::update();
+
+            // Background render params
+            {
+                const const glm::mat4 &projection = e3::ApplicationSharedData::Get()->GetProjection();
+                const glm::mat4& keyboardTransform = e3::ApplicationSharedData::Get()->GetKeyboardTransform();
+                mBackgroundShapeRenderParam->ShapeType = mShapeType;
+                mBackgroundShapeRenderParam->Projection = projection;
+                mBackgroundShapeRenderParam->Translate = keyboardTransform * mAdditionalTransform.Translate * mTransform.Translate;
+                mBackgroundShapeRenderParam->Rotate = glm::mat4(1);
+                mBackgroundShapeRenderParam->Scale = mAdditionalTransform.Scale * mTransform.Scale;
+                mBackgroundShapeRenderParam->BackgroundColor = glm::vec4(glm::vec3(mBackgroundColorCurrent), 1.0f);
+                mBackgroundShapeRenderParam->BackgroundImage = mBackgroundShapeRenderParam->BackgroundImage;
+                mBackgroundShapeRenderParam->BackgroundSize = mBackgroundSize;
+                mBackgroundShapeRenderParam->Rect = GetGeometry();
+              //  mBackgroundShapeRenderParam->Resolution = cv::Size(sScreenWidth, sScreenHeight);
+                mBackgroundShapeRenderParam->BorderRadius = mBorderRadius;
+                mBackgroundShapeRenderParam->BorderSize = mBorderSize;
+                mBackgroundShapeRenderParam->BackgroundPosition = mBackgroundPosition;
+                mBackgroundShapeRenderParam->BackgroundImageOpacity = 0.0f;
+                mBackgroundShapeRenderParam->Z = mZ;
+                mBackgroundShapeRenderParam->Opacity = mOpacity;
+            }
+        }
+
+        void draw() override
+        {
+         //   if (EVisibility::Hidden == mVisibility) return;
+
+            if (mBackgroundColorCurrent.w == 1.0f)
+            {
+                const glm::mat4& keyboardTransform = e3::ApplicationSharedData::Get()->GetKeyboardTransform();
+                mBackgroundShapeRenderParam->Translate = keyboardTransform * mAdditionalTransform.Translate * mTransform.Translate;
+                e3::ShapeRenderer::Get()->Render(mBackgroundShapeRenderParam);
+            }
+        }
+
+    protected:
+        e3::ShapeRenderParams* mBackgroundShapeRenderParam = nullptr;
+    };
+}
+
+#endif // __E3_SHAPE_VIEW__

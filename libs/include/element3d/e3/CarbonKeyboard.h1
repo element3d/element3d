@@ -1,0 +1,90 @@
+#ifndef __CARBON_KEYBOARD__
+#define __CARBON_KEYBOARD__
+
+#include <Carbon.h>
+#include <e3/Types.h>
+#include "View.h"
+#include "Enum.h"
+#include "Font.h"
+#include <functional>
+#include <ctime>
+
+
+namespace e3
+{
+    typedef std::function<void(e3::EKey, char)> OnKeyCallback;
+
+    class Keyboard : public View
+    {
+    public:
+        Keyboard();
+
+    public:
+        void Show(glm::mat4& projection);
+        void Hide();
+
+    public:
+        virtual void draw(const glm::mat4& projection);
+
+    public:
+        void SetOnKeyCallback(OnKeyCallback callback) { mOnKeyCallback = callback; }
+
+    public:
+        bool onClick(const glm::vec2& pos) override;
+
+    private:
+        bool mFirstFrame = true;
+        float mLocalTranslateY;
+        std::clock_t mShowAnimationTimer;
+        OnKeyCallback mOnKeyCallback;
+
+        struct
+        {
+            unsigned  VAO;
+            Carbon::Buffer* VertexBuffer;
+            Carbon::Buffer* IndexBuffer;
+            Carbon::ShaderProgram*   Program;
+            Carbon::ShaderProgram*   CharProgram;
+            const int NumInstances = 50;
+            glm::vec2 InstanceTransforms[50];
+        } mQuad;
+
+        Font* mFont = NULL;
+        std::string mCharactersLower;
+        std::string mCharactersUpper;
+        bool mIsLoweCase = true;
+        struct CharacterRect
+        {
+            e3::Rect2f Rect;
+            char Character;
+        };
+        std::vector<CharacterRect> mCharacterRects;
+        CharacterRect* mFocusedCharRect = nullptr;
+        Texture* mTextureShift = nullptr;
+        Texture* mTextureClear = nullptr;
+        Texture* mTextureEnter = nullptr;
+
+        struct
+        {
+            e3::Rect2f Rect;
+            Carbon::ShaderProgram*   Program;
+        } mInput;
+
+        struct
+        {
+            Carbon::Buffer* VertexBuffer;
+            Carbon::ShaderProgram*   Program;
+        } mCursor;
+
+        struct
+        {
+            Carbon::Buffer* vertexBuffer = nullptr;
+            Carbon::ShaderProgram* shader;
+        } mText;
+
+        std::clock_t mClickAnimation;
+        float mFocusIntensity = 1.0f;
+    };
+}
+
+#endif __CARBON_KEYBOARD__
