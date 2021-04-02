@@ -7,12 +7,7 @@
 #include <queue>
 #include <mutex>
 #include <e3/Types.h>
-namespace e3
-{
-    class Drawer;
-    class Template;
-    // class Activity;
-}
+
 typedef std::function<void(bool)> OnImageGalleryStateChangeCallback;
 typedef std::function<void(const std::string& path)> OnImageGalleryResultCallback;
 typedef std::function<void(const std::string& message)> OnInteractionCallback;
@@ -30,23 +25,6 @@ namespace e3
     public:
         Context() {}
 
-       // void AddActivity(Activity* pActivity);
-      
-        void AddDrawer(Drawer* pDrawer);
-       
-        Drawer* FindDrawerById(int id);
-
-        /*void StartActivity(int id, void* pData);
-        bool CloseActivity();*/
-
-
-        //Activity* GetActivity();
-        Drawer* GetDrawer();
-
-        /*virtual void OnActivityStart(Activity* pActivity) {}
-        virtual void OnActivityResume(Activity* pActivity) {}
-        virtual void OnActivityDestroy(Activity *pActivity);
-		*/
         void OpenImageGallery(OnImageGalleryResultCallback onImageGalleryResultCallback)
         {
             mOnImageGalleryResultCallback = onImageGalleryResultCallback;
@@ -113,9 +91,6 @@ namespace e3
 		std::string GetClipboardString() { mOnGetClipboardStringCallback(); return mClipboardString; }
 		void SetClipboardStringInternal(const std::string& text) { mClipboardString = text; }
     private:
-        /*std::vector<Activity*> mActivityStack;
-        std::map<int, Activity*> mActivities;*/
-        std::map<int, Drawer*> mDrawers;
         OnImageGalleryStateChangeCallback mOnImageGalleryStateChangeCallback = nullptr;
         OnImageGalleryResultCallback mOnImageGalleryResultCallback = nullptr;
         OnInteractionCallback mOnInteractionCallback = nullptr;

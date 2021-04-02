@@ -63,7 +63,7 @@ namespace e3
 		void RenderCursor();
 		int GetCursorFromClick(glm::vec2 pos);
 		void _EnableSelection(int startIndex, int endIndex);
-
+		void _ReactOnClick();
 	private:
 		bool mSimulateSroll = false;
 		ScrollView* mScrollView = nullptr;

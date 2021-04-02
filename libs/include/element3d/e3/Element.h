@@ -32,18 +32,18 @@ namespace e3
 		virtual void RenderToTexture();
         virtual void Update();
 
-		Application* GetActivity();
+		Application* GetApplication();
 
     public:
         virtual bool OnClick(MouseEvent* pEvent);
 		virtual bool OnDoubleClick(MouseEvent* pEvent);
+		virtual bool OnLongClick(MouseEvent* pEvent);
         virtual bool OnScale(ScaleEvent* pEvent);
-        virtual void OnMove(MouseEvent* pEvent);
+        virtual void OnMouseMove(MouseEvent* pEvent);
 		virtual void OnMouseWhell(MouseEvent* pEvent);
         virtual bool OnMouseDown(MouseEvent* pEvent);
 		virtual bool OnMouseLongDown(MouseEvent* pEvent);
-		virtual bool OnMouseLongClick(MouseEvent* pEvent);
-        virtual bool OnPointerUp(MouseEvent* pEvent);
+        virtual bool OnMouseUp(MouseEvent* pEvent);
 		virtual void OnMouseEnter(MouseEvent* pEvent);
 		virtual void OnMouseHover(MouseEvent* pEvent);
 		virtual void OnMouseLeave(MouseEvent* pEvent);
@@ -52,10 +52,10 @@ namespace e3
         void SetOnClickCallback(OnClickCallback callback);
 		void SetOnDoubleClickCallback(OnDoubleClickCallback callback);
 		void SetOnLongClickCallback(OnLongClickCallback callback);
-		void SetOnDownCallback(OnDownCallback callback);
-		void SetOnUpCallback(OnUpCallback callback);
-		void SetOnLongDownCallback(OnLongDownCallback callback);
-		void SetOnMoveCallback(OnMoveCallback callback);
+		void SetOnMouseDownCallback(OnMouseDownCallback callback);
+		void SetOnMouseUpCallback(OnMouseUpCallback callback);
+		void SetOnMouseLongDownCallback(OnMouseLongDownCallback callback);
+		void SetOnMouseMoveCallback(OnMouseMoveCallback callback);
 		void SetOnMouseEnterCallback(OnMouseEnterCallback callback);
 		void SetOnMouseHoverCallback(OnMouseHoverCallback callback);
 		void SetOnMouseLeaveCallback(OnMouseLeaveCallback callback);
@@ -166,8 +166,6 @@ namespace e3
 		void SetBackgroundImage(std::shared_ptr<Image> pImage);
 		void SetBackgroundImage(std::shared_ptr<Image> pImage, int index);
 
-		void SetBackgroundImageUrl(const std::string &url);
-		void SetBackgroundImageUrl(const std::string &url, const cpr::Header& header);
 		void SetBackgroundImageOpacity(float opacity);
 
 		void SetBackgroundImageFit(EBackgroundSize fit);
@@ -363,12 +361,12 @@ namespace e3
 		// Event callbacks
 		e3::OnClickCallback mOnClickCallback = nullptr;
 		e3::OnDoubleClickCallback mOnDoubleClickCallback = nullptr;
-		e3::OnDownCallback mOnDownCallback = nullptr;
+		e3::OnMouseDownCallback mOnDownCallback = nullptr;
 		e3::OnScaleCallback mOnScaleCallback = nullptr;
-		e3::OnUpCallback mOnUpCallback = nullptr;
+		e3::OnMouseUpCallback mOnUpCallback = nullptr;
 		e3::OnLongClickCallback mOnLongClickCallback = nullptr;
-		e3::OnLongDownCallback mOnLongDownCallback = nullptr;
-		e3::OnMoveCallback mOnMoveCallback = nullptr;
+		e3::OnMouseLongDownCallback mOnLongDownCallback = nullptr;
+		e3::OnMouseMoveCallback mOnMoveCallback = nullptr;
 		e3::OnMouseEnterCallback mOnMouseEnterCallback = nullptr;
 		e3::OnMouseHoverCallback mOnMouseHoverCallback = nullptr;
 		e3::OnMouseLeaveCallback mOnMouseLeaveCallback = nullptr;

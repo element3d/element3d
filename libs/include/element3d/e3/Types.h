@@ -27,12 +27,12 @@ namespace e3
 
 	typedef std::function<void(MouseEvent* pEvent)> OnClickCallback;
 	typedef std::function<void(MouseEvent* pEvent)> OnDoubleClickCallback;
-	typedef std::function<void(MouseEvent* pEvent)> OnLongDownCallback;
-	typedef std::function<void(MouseEvent* pEvent)> OnDownCallback;
+	typedef std::function<void(MouseEvent* pEvent)> OnMouseLongDownCallback;
+	typedef std::function<void(MouseEvent* pEvent)> OnMouseDownCallback;
 	typedef std::function<void(ScaleEvent* pEvent)> OnScaleCallback;
-	typedef std::function<void(MouseEvent* pEvent)> OnUpCallback;
+	typedef std::function<void(MouseEvent* pEvent)> OnMouseUpCallback;
 	typedef std::function<void(MouseEvent* pEvent)> OnLongClickCallback;
-	typedef std::function<void(MouseEvent* pEvent)> OnMoveCallback;
+	typedef std::function<void(MouseEvent* pEvent)> OnMouseMoveCallback;
 	typedef std::function<void(MouseEvent* pEvent)> OnMouseEnterCallback;
 	typedef std::function<void(MouseEvent* pEvent)> OnMouseHoverCallback;
 	typedef std::function<void(MouseEvent* pEvent)> OnMouseLeaveCallback;

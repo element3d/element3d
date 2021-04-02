@@ -27,7 +27,7 @@ namespace e3
 		bool OnMouseDown(MouseEvent* pEvent) override;
 		bool OnMouseLongDown(MouseEvent* pEvent) override;
 		bool OnClick(MouseEvent* pEvent) override;
-		void OnMove(MouseEvent* pEvent) override;
+		void OnMouseMove(MouseEvent* pEvent) override;
 		void OnCursorDropClick();
 		void SetInputRect(const e3::Rect2f& inputRect) { mInputRect = inputRect; }
 		void SetTextAreaRect(const e3::Rect2f& textAreaRect) { mTextAreaRect = textAreaRect; }

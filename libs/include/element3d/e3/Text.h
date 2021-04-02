@@ -30,6 +30,7 @@ namespace e3
 
 	public:
 		virtual void Render() override;
+		void Render2();
 		virtual void Build() override;
 		virtual void RenderToTexture() override;
 		virtual void Update() override;
@@ -69,6 +70,7 @@ namespace e3
 		void GenerateLineCharacterRects(const std::string& line, std::vector<e3::Rect2f>& rects);
 		void GenerateLineCharacterRects(int start, int size, std::vector<e3::Rect2f>& rects);
 
+		void _RenderTextOffscreen();
 	private:
 		std::mutex mTextMutex;
 		bool mFontInitializing = false;
@@ -91,6 +93,7 @@ namespace e3
 		bool mTextReady = false;
 		glm::vec4 mColor = glm::vec4(0, 0, 0, 255);
 		Carbon::ShaderProgram* mShaderProgram = nullptr;
+		Carbon::ShaderProgram* mFinalShaderProgram = nullptr;
 
 		e3::TextAlignFlags mTextAlignFlags;
 		e3::EAlignment mTextAlignVer;

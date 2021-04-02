@@ -8,8 +8,6 @@
 // std
 #include <string>
 #include <map>
-// cpr
-#include <cpr/cpr.h>
 
 class Texture;
 
@@ -44,11 +42,6 @@ namespace e3
 		void Load(const std::string& filename, OnImageLoadCallback1 callback);
 		void LoadFile(const std::string& filename, std::shared_ptr<OnLoadCallback> callback);
 		static void Load(const std::string& filename, OnImageLoadCallback callback);
-		void LoadUrl(const std::string& url);
-		void LoadUrl(const std::string& url, OnImageLoadCallback1 callback);
-		void LoadUrl(const std::string& url, std::shared_ptr<OnLoadCallback> callback);
-		static void LoadUrl(const std::string& url, OnImageLoadCallback callback);
-		static void LoadUrl(const std::string& url, const cpr::Header& header, OnImageLoadCallback callback);
 		//static std::shared_ptr<e3::Image> LoadAsset(int id);
 
 	public:
@@ -60,9 +53,6 @@ namespace e3
 		float GetOpacity() { return mOpacity; }
 
 	private:
-		void DownloadThreadWorker(const std::string& url, const cpr::Header& header, OnImageLoadCallback callback);
-		void DownloadThreadWorker1(const std::string& url, const cpr::Header& header, OnImageLoadCallback1 callback);
-		void DownloadThreadWorker2(const std::string& url, const cpr::Header& header, std::shared_ptr<OnLoadCallback> callback);
 		void LoadThreadWorker2(const std::string& filename, std::shared_ptr<OnLoadCallback> callback);
 		static void LoadThreadWorker(const std::string& filename, OnImageLoadCallback callback);
                 //void LoadThreadWorker1(const std::string& filename, OnImageLoadCallback1 callback);

@@ -18,10 +18,10 @@ namespace e3
 		void Render() override;
         virtual void Update() override;
 
-        virtual void OnMove(MouseEvent* pEvent) override;
+        virtual void OnMouseMove(MouseEvent* pEvent) override;
 
         virtual bool OnMouseDown(MouseEvent* pEvent) override;
-        virtual bool OnPointerUp(MouseEvent* pEvent) override;
+        virtual bool OnMouseUp(MouseEvent* pEvent) override;
 
         bool Scroll(const glm::vec3& direction);
 

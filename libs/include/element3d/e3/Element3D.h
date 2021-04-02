@@ -21,7 +21,7 @@ namespace e3
 	//	void SetModel(int modelAssetId);
 
 	public:
-		virtual void OnMove(MouseEvent* pEvent) override;
+		virtual void OnMouseMove(MouseEvent* pEvent) override;
 
     private:
 		std::string mModelPath = "";

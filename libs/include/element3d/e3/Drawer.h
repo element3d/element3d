@@ -140,7 +140,7 @@ namespace e3
             mPositionX = px;
         }
 
-        bool OnPointerUp(const glm::vec2 &pos)
+        bool OnMouseUp(const glm::vec2 &pos)
         {
             if (mState != EViewState::Sliding) return true;
             if (mPositionX >= -0.5f * mRect.width)

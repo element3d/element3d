@@ -49,7 +49,7 @@ namespace e3
 
         virtual void Update() override;
         virtual bool OnClick(const glm::vec2 &pos) override;
-        virtual void OnMove(const glm::vec2 &distance, const glm::vec2& pos) override;
+        virtual void OnMouseMove(const glm::vec2 &distance, const glm::vec2& pos) override;
 
         void onKey(e3::EKey key, char c);
 

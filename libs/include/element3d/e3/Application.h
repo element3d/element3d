@@ -3,18 +3,12 @@
 
 #include <e3.h>
 #include "Context.h"
-// #include "Activity.h"
 #include "AssetManager.h"
-//#include "GLMainView.h"
-// #include "../../../AppAssets.h"
-//#include "Container.h"
-//#include <e3/CarbonKeyboard.h>
 #include <e3/Types.h>
 #include <e3/RenderTargetMultisample.h>
 #include <e3/RenderTarget.h>
 #include <functional>
 #include <e3/FXBlur.h>
-//#include <e3/CarbonPicker.h>
 #include <e3/DropdownLayout.h>
 #include <e3/SelectionLayer.h>
 #include <Carbon/Buffer.h>
@@ -54,7 +48,6 @@ namespace e3
 		std::clock_t LastDownTime;
 		bool CheckForMouseLongDown;
 		bool CheckForLongClick;
-      //  View* LastDownView;
     };
 
 
@@ -69,16 +62,13 @@ namespace e3
         virtual ~Application();
 
     public:
-        void render2();
         void render();
 
         virtual void OnResize(float width, float height) = 0;
         void resize(float width, float height);
 
-
     public:
         float Width() { return mWidth; }
-
         float Height() { return mHeight; }
 
 		EE3Target GetE3Target() { return mE3Target; }
@@ -136,7 +126,6 @@ namespace e3
 		void Create();
         void Destroy();
     protected:
-//    virtual void OnSideNavigationMenuItemClick(Carbon::NavigationMenuItem* pItem) {}
         bool mInitialized = false;
 
     protected:
@@ -147,7 +136,6 @@ namespace e3
         e3::DropdownLayout *mDropdownLayout = nullptr;
         e3::Element* mDialogContainer = nullptr;
         e3::Element *mMainLayout = nullptr;
-        e3::Element *mDrawerLayout = nullptr;
 		e3::SelectionLayer *mSelectionLayer = nullptr;
         /*AppAssets *mAppAssets = nullptr;
 		FontsBase* mFonts = nullptr;
