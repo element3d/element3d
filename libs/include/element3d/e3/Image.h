@@ -69,7 +69,7 @@ namespace e3
 		// static std::map<std::string, std::shared_ptr<e3::Image>> mLoadedUrls;
 		static std::map<int, std::shared_ptr<e3::Image>> mLoadedAssets;
 		std::function<void()> mUiRunnable;
-		std::thread mThread;
+		//std::thread mThread;
         OnLoadCallback* mCall = nullptr;
 		float mOpacity = 1.0f;
 	};

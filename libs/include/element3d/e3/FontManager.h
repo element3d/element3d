@@ -35,7 +35,8 @@ namespace e3
 
 		std::map<std::string, Font*> mLoadedFonts;*/
 
-		FontsBase* mFonts = nullptr;
+		//FontsBase* mFonts = nullptr;
+		std::map<std::string, std::vector<FontParams>> mSystemFonts;
 	};
 }
 

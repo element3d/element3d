@@ -20,6 +20,7 @@
 #endif
 
 #include <e3/strptime.h>
+#include <e3/Log.h>
 
 typedef char CHAR;
 typedef unsigned char UCHAR;
