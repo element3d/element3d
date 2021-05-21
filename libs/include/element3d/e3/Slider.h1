@@ -1,0 +1,170 @@
+#ifndef __E3_SLIDER__
+#define __E3_SLIDER__
+
+#include "ProgressBar.h"
+#include "e3ShapeView.h"
+
+namespace e3
+{
+    typedef std::function<void(float)> OnChangeCallback;
+    typedef std::function<void(void)>  OnSlideBeginCallback;
+    typedef std::function<void(void)>  OnSlideEndCallback;
+
+    class Slider : public Shape
+    {
+    public:
+        enum class ESliderState
+        {
+            Initial,
+            Sliding
+        };
+
+        Slider() : Shape()
+        {
+            mType = EViewType::Slider;
+            SetAlignItemsVer(e3::EAlignment::End);
+
+            mProgress = new e3::ProgressBar();
+            mProgress->SetWidth(1);
+            mProgress->SetHeight(0.5);
+            mProgress->SetBackgroundColor(mParams->BackgroundColor);
+            mProgress->SetValueColor(mValueColor);
+            AddElement(mProgress);
+
+            mShapeView = new Shape();
+            mShapeView->SetShapeType(EShapeType::Circle);
+            mShapeView->SetBorderRadius(1.0f);
+            mShapeView->SetBackgroundColor(GetValueColor());
+            mShapeView->SetWidth(GetRect().height);
+            mShapeView->SetAspectRatio(1.0f);
+            mShapeView->SetPositionType(e3::EPositionType::Absolute);
+            mShapeView->SetOnClickCallback([this](){
+                mSliderState = ESliderState ::Sliding;
+                if (mOnSlideBeginCallback) mOnSlideBeginCallback();
+            });
+            /*mShapeView->setOnFocusOutCallback([this](){
+                mSliderState = ESliderState ::Initial;
+                if (mOnSlideEndCallback) mOnSlideEndCallback();
+            });*/
+            AddElement(mShapeView);
+        }
+
+        glm::vec4 GetValueColor() { return mValueColor; }
+        void SetValueColor(const glm::vec4& color) { mValueColor = color; mProgress->SetValueColor(color); mShapeView->SetBackgroundColor(color); }
+        void setBackgroundColor(const glm::vec4& color) { mProgress->SetBackgroundColor(color); }
+        virtual void SetShapeType(EShapeType type)
+        {
+            mProgress->SetShapeType(type);
+        }
+
+        void SetBorderRadius(float radius)
+        {
+            mProgress->SetBorderRadius(radius);
+        }
+        void SetBorderRadius(const glm::vec4& radius)
+        {
+            mProgress->SetBorderRadius(radius);
+        }
+
+
+        void SetValue(int value)
+        {
+            mProgress->SetValue(value);
+            if (mOnChangeCallback) mOnChangeCallback(value);
+            /*e3::ApplicationSharedData::Get()->GetContext()->*/GetActivity()->RequestUpdate();
+
+        }
+        int GetValue() { return mProgress->GetValue(); }
+
+        bool OnClick(const glm::vec2& pos) override
+        {
+            Shape::OnClick(pos);
+
+            Rect2f rect = GetGeometry();
+            int value = ((rect.y + rect.height) - pos.y) / rect.height * 100;
+            SetValue(value);
+            mSliderState = ESliderState ::Sliding;
+            if (mOnSlideBeginCallback) mOnSlideBeginCallback();
+            return true;
+        }
+
+        virtual bool OnPointerUp(const glm::vec2& pos)
+        {
+            mSliderState = ESliderState ::Initial;
+            if (mOnSlideEndCallback) mOnSlideEndCallback();
+            return true;
+        }
+
+
+        void Update() override
+        {
+            Shape::Update();
+            Rect2f rect = GetRect();
+            float w = std::min(GetRect().width, GetRect().height);
+            mShapeView->SetWidth(w);
+            if (GetOrientation() == EOrientation::Horizontal)
+                mShapeView->SetTranslation(glm::vec3(rect.width * GetValue() / 100.0f - w / 2.0f, 0.0f, 0.0f));
+            else
+                mShapeView->SetTranslation(glm::vec3(0.0f, -rect.height * GetValue() / 100.0f + w / 2.0f, 0.0f));
+            mShapeView->Update();
+        }
+
+        virtual void OnMove(const glm::vec2& distance, const glm::vec2& pos) override
+        {
+            if (mSliderState != ESliderState::Sliding) return;
+
+            if (GetOrientation() == EOrientation::Horizontal)
+                SetValue(GetValue() - distance.x * 0.1f);
+            else
+                SetValue(GetValue() + distance.y * 0.15f);
+        }
+
+        void Render() override
+        {
+//            LinearLayout::draw();
+            if (GetVisibility() == EVisibility::Hidden) return;
+
+            mShapeView->Render();
+            mProgress->Render();
+//            for (int i = 0; i < NumChildren(); ++i)
+//            {
+//                auto pView = Children()[i];
+//                if (pView->Visibility() == EVisibility::Hidden) continue;
+//                pView->draw( /** pView->ScrollTransform()*/);
+//            }
+
+         //   mShapeView->draw();
+        }
+
+        void SetOrientation(EOrientation o)
+        {
+            Shape::SetOrientation(o);
+            mProgress->setOrientation(GetOrientation());
+            if (GetOrientation() == EOrientation::Horizontal)
+            {
+                mProgress->SetWidth(1);
+                mProgress->SetHeight(0.3);
+            }
+            else
+            {
+                mProgress->SetWidth(0.3);
+                mProgress->SetHeight(1);
+            }
+        }
+
+        void setOnChangeCallback(OnChangeCallback onChangeCallback) { mOnChangeCallback = onChangeCallback; }
+        void setOnSlideBeginCallback(OnSlideBeginCallback onSlideBeginCallback) { mOnSlideBeginCallback = onSlideBeginCallback; }
+        void setOnSlideEndCallback(OnSlideEndCallback onSlideEndCallback) { mOnSlideEndCallback = onSlideEndCallback; }
+
+    private:
+        Shape* mShapeView = nullptr;
+        e3::ProgressBar* mProgress = nullptr;
+        glm::vec4 mValueColor = glm::vec4(0);
+        ESliderState mSliderState = ESliderState::Initial;
+        OnChangeCallback mOnChangeCallback = nullptr;
+        OnSlideBeginCallback mOnSlideBeginCallback = nullptr;
+        OnSlideEndCallback mOnSlideEndCallback = nullptr;
+    };
+}
+
+#endif // __E3_SLIDER__

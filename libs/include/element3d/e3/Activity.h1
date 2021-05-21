@@ -1,0 +1,128 @@
+#ifndef __ACTIVITY__
+#define __ACTIVITY__
+
+#include "Context.h"
+#include "ApplicationSharedData.h"
+//#include "LinearLayout.h"
+#include "Shape.h"
+#include <map>
+#include <string>
+#include <queue>
+#include <mutex>
+#include <e3.h>
+
+namespace e3
+{
+
+    typedef std::function<void(void)> UiThreadRunnable;
+
+    class Activity : public Shape
+    {
+    public:
+        Activity(e3::Context *pContext);
+
+    public:
+        void Start(void* pData)
+        {
+            switch (mActivityState)
+            {
+                case EActivityState::Initial:
+                    mUsrPtr = pData;
+                    mActivityState = EActivityState::OnCreate;
+                    return;
+            }
+        }
+
+        void Resume()
+        {
+            switch (mActivityState)
+            {
+                case EActivityState::OnStop:
+                    mActivityState = EActivityState::OnRender;
+                    return;
+            }
+        }
+
+        void Destroy()
+        {
+            /*switch (mActivityState)
+            {
+                case EActivityState::OnStop:
+                    mActivityState = EActivityState::OnRender;
+                    return;
+            }*/
+            Clear();
+            OnDestroy();
+            mActivityState = EActivityState::Initial;
+        }
+
+        void Render() override;
+        void runUiThreadJobs();
+
+        void Update() override;
+
+        void StartActivity(int id, void* pData)
+        {
+            RunOnUiThread([this, id, pData]()
+            {
+                mContext->StartActivity(id, pData);
+            });
+        }
+
+       // virtual Activity *GetActivity() override { return this; }
+
+        virtual void OnCreate(void* pData) = 0;
+        virtual void OnResume() {}
+        virtual void OnDestroy();
+
+        void onMove(const glm::vec2 &distance, const glm::vec2 &pos);
+
+        void RunOnUiThread(UiThreadRunnable runnable) {
+            std::lock_guard<std::mutex> lock(mUiThreadRunnablesMutex);
+            mUiThreadRunnables.push(runnable);
+        }
+
+        void ShowDialog(e3::Shape* pDialogShape);
+        void HideDialog();
+
+        void SetDrawer(int drawerId) { mDrawer = drawerId; }
+
+        int GetDrawer() { return mDrawer; }
+
+        void SetState(EActivityState state) { mActivityState = state; }
+
+        EActivityState GetState() { return mActivityState; }
+
+        void RequestUpdate() { mUpdateRequested = true; }
+
+        bool UpdateRequested() { return mUpdateRequested; }
+
+        void OpenImageGallery(OnImageGalleryResultCallback onImageGalleryResultCallback) {
+            e3::ApplicationSharedData::Get()->GetContext()->OpenImageGallery(
+                    onImageGalleryResultCallback);
+        }
+
+        virtual void OnViewClick(Element *pView) {}
+
+        virtual void OnMouseMove(const glm::vec2 &distance, const glm::vec2 &pos) {}
+
+        void interact(const std::string& message)
+        {
+            ApplicationSharedData::Get()->GetContext()->interact(message);
+        }
+    /*protected:
+        virtual void OnCreatePrivate() = 0;*/
+
+    protected:
+        EActivityState mActivityState = EActivityState::Initial;
+        e3::Context *mContext = nullptr;
+
+        std::queue<UiThreadRunnable> mUiThreadRunnables;
+        std::mutex mUiThreadRunnablesMutex;
+        int mDrawer = -1;
+        bool mUpdateRequested = false;
+
+        void* mUsrPtr = nullptr;
+    };
+}
+#endif // __ACTIVITY__
