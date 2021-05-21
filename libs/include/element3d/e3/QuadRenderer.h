@@ -12,7 +12,7 @@ namespace e3
     public:
         static QuadRenderer& Get();
 		//static QuadRenderer* Get();
-        static void Destroy();
+        void Destroy();
 
     public:
         void Recreate();
@@ -26,7 +26,7 @@ namespace e3
         Carbon::ShaderProgram* GetShaderProgram() { return mProgram; }
         void Render();
 
-    private:
+    public:
         QuadRenderer();
         ~QuadRenderer();
 

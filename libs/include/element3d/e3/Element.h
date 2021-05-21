@@ -69,8 +69,8 @@ namespace e3
     public:
         void SetId(int id);
         int GetId() const;
-        const EViewType GetType() const;
-        void SetElementType(EViewType type) { mType = type; }
+        const EElementType GetType() const;
+        void SetElementType(EElementType type) { mType = type; }
 
         void SetUsrPtr(void* pUsrPtr);
         void* GetUsrPtr();
@@ -172,6 +172,7 @@ namespace e3
 		void SetBackgroundImagePosition(EBackgroundPosition position);
 
 		void SetBackgroundImageColor(const glm::vec4& color);
+		const glm::vec4& GetBackgroundImageColor() const;
 
 		// Shape type
 		void SetShapeType(EShapeType shapeType);
@@ -319,7 +320,7 @@ namespace e3
 
 	private:
 		int FindElementIndexById(int id);
-	
+		void UpdateNode();
 	
 
     protected:
@@ -329,7 +330,7 @@ namespace e3
         int           mId = -1;
         int           mIndex = -1;
         void*         mNode = nullptr;
-        EViewType     mType;
+        EElementType     mType;
         e3::Rect2f    mRect;
 		e3::Rect2f    mGeometry;
 

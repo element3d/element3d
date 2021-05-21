@@ -4,7 +4,7 @@
 #include <map>
 #include <string>
 #include <functional>
-#include "LocaleBase.h"
+// #include "LocaleBase.h"
 #define _t(X) #X, true
 #define _s(X) std::string(#X)
 
@@ -18,7 +18,7 @@ namespace e3
 	public:
 		static i18n* Get();
 
-		void Init(LocaleBase* pLocale);
+		//void Init(LocaleBase* pLocale);
 		//void SetLanguage(const std::string& language);
 		void SetLocale(const std::string& locale);
 		// void SetLocale(int locale);
@@ -32,7 +32,7 @@ namespace e3
 		static i18n* sInstance;
 		static int sCallbackCounter;
 
-		e3::LocaleBase* mLocale = nullptr;
+		//e3::LocaleBase* mLocale = nullptr;
 		std::string mLanguage;
 		//int mLanguage;
 		std::map<std::string, std::string> mFileMap;

@@ -8,6 +8,7 @@
 #include <e3/CarbonKeys.h>
 #include <e3/Types.h>
 #include <e3/MouseEvent.h>
+#include <e3/Application.h>
 
 namespace e3 
 {
@@ -32,6 +33,7 @@ namespace e3
 		Window(WindowCreateInfo* pWindowCreateInfo);
 
 	public:
+		void SetApplication(e3::Application* pApplication);
 		void Show();
 
 	public:
@@ -63,6 +65,8 @@ namespace e3
 
 	private:
 		void* mGLFWWindow = nullptr;
+		e3::Application* mApplication = nullptr;
+
 		std::map<ECursor, void*> mCursors;
 		WindowParams mParams;
 		OnResizeCallback mOnResizeCallback = nullptr;

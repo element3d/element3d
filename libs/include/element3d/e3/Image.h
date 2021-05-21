@@ -8,6 +8,7 @@
 // std
 #include <string>
 #include <map>
+#include <memory>
 
 class Texture;
 

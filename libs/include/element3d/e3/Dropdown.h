@@ -18,13 +18,13 @@ namespace e3
 		Dropdown();
 		~Dropdown();
 
-		void Expand();
-
 		void Render() override;
 
-		void Collapse();
+	public:
+		virtual void Expand();
+		virtual void Collapse();
 
-		void SetBody(DropdownBody* pBody);
+		virtual void SetBody(DropdownBody* pBody);
 		DropdownBody* GetBody();
 		e3::EDropdownState GetDropdownState();
 

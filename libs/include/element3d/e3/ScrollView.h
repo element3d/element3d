@@ -2,7 +2,7 @@
 #define __CARBON_SCROLL_VIEW__
 
 #include "Element.h"
-#include "ApplicationSharedData.h"
+//#include "ApplicationSharedData.h"
 #include "Animation.h"
 #include <mutex>
 

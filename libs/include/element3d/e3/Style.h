@@ -47,6 +47,7 @@ namespace e3
 		e3::Padding Padding;
 		e3::Margin Margin;
 		float Opacity;
+		EOverflow     Overflow = EOverflow::Visible;
 		EScaling      Scaling = EScaling::None;
 		EVisibility   Visibility = EVisibility::Visible;
 		EPositionType PositionType = EPositionType::Relative;

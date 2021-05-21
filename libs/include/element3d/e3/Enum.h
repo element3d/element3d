@@ -1,12 +1,10 @@
-#ifndef __ENUM__
-#define __ENUM__
+#ifndef __E3_ENUM__
+#define __E3_ENUM__
 
-#ifndef __CARBON_MAKE__
 #include <Carbon.h>
 #include "CarbonKeys.h"
-#endif
 
-enum EActivityState
+/*enum EActivityState
 {
 	Initial,
 	OnCreate,
@@ -14,52 +12,10 @@ enum EActivityState
 	OnRender,
 	OnStop,
 	OnDestroy,
-};
+};*/
 
-enum class EViewState
-{
-	Initial,
-	Enabled,
-	Disabled,
-    Visible,
-    Sliding,
-    Scrolling,
-    Hidden,
-    Appearing,
-    Disappearing,
-    MouseDown,
-    MouseUp,
-    MouseMove,
-	MouseEnter,
-	MouseHover,
-	MouseLeave,
-    Clicked,
-};
-
-enum class EVisibility
-{
-	Visible,
-	Gone,
-	Hidden
-};
-
-enum class EOrientation
-{
-    Horizontal,
-    Vertical
-};
-
-
-enum class EGravity
-{
-    Start,
-    Center,
-    End
-};
-#ifndef __CARBON_MAKE__
 namespace e3
 {
-#endif
 	struct Enum
 	{
 	public:
@@ -74,6 +30,89 @@ namespace e3
 	protected:
 		static int sCount;
 	};
+
+	enum class EElementType
+	{
+	Unknown = -1,
+	Element,
+	/*Activity,
+	AppBar,
+	Drawer,
+	NavigationMenu,
+	NavigationMenuHeader,
+	NavigationMenuItemGroup,
+	NavigationMenuItem,
+	TabNavigationMenu,
+	TabNavigationMenuItem,
+	Adapter,
+	LinearLayout,
+	ShapeView,
+	TextureView,
+	Icon,*/
+	Input,
+	TextArea,
+	Text,
+	/*Button,
+	ListView,
+	RecyclerView,*/
+	ScrollView,
+	/*TabView,
+	TabViewItem,
+	GridView,
+	ExpandView,*/
+	Dropdown,
+	//DropdownHeader,
+	DropdownLayout,
+	/*ProgressBar,
+	Slider,*/
+	FontIcon,
+	/*Checkbox,
+	ModelView3D,
+	Materials,
+	DiffuseMap,
+	CustomView*/
+	};
+
+
+	enum class EViewState
+	{
+		Initial,
+		Enabled,
+		Disabled,
+		Visible,
+		Sliding,
+		Scrolling,
+		Hidden,
+		Appearing,
+		Disappearing,
+		MouseDown,
+		MouseUp,
+		MouseMove,
+		MouseEnter,
+		MouseHover,
+		MouseLeave,
+		Clicked,
+	};
+
+	enum class EVisibility
+	{
+		Visible,
+		Gone,
+		Hidden
+	};
+
+	enum class EOrientation
+	{
+		Horizontal,
+		Vertical
+	};
+
+	/*enum class EGravity
+	{
+		Start,
+		Center,
+		End
+	};*/
 
 	enum class EE3OS 
 	{
@@ -119,7 +158,8 @@ namespace e3
 		SpaceAround
 	};
 
-	enum class ETextAlignFlag {
+	enum class ETextAlignFlag 
+	{
 		StartHorizontal = 1,
 		CenterHorizontal = 2,
 		EndHorizontal = 4,
@@ -164,10 +204,10 @@ namespace e3
 		End
 	};
 
-	enum class EFXType
+	/*enum class EFXType
 	{
 		Shadow
-	};
+	};*/
 
 	enum class EPositionType
 	{
@@ -201,52 +241,9 @@ namespace e3
 		Italic = (1 << 0),
 		Bold = (1 << 1)
 	};
-#ifndef __CARBON_MAKE__
 }
-#endif
 
-
-enum class EViewType
-{
-    Unknown = -1,
-	Activity,
-	AppBar,
-	Drawer,
-	NavigationMenu,
-	NavigationMenuHeader,
-	NavigationMenuItemGroup,
-	NavigationMenuItem,
-	TabNavigationMenu,
-	TabNavigationMenuItem,
-	Adapter,
-    LinearLayout,
-    ShapeView,
-    TextureView,
-	Icon,
-    EditText,
-	TextArea,
-    Text,
-    Button,
-	ListView,
-	RecyclerView,
-	ScrollView,
-	TabView,
-	TabViewItem,
-	GridView,
-	ExpandView,
-	Dropdown,
-	DropdownHeader,
-	DropdownLayout,
-	ProgressBar,
-	Slider,
-	FontIcon,
-	Checkbox,
-    ModelView3D,
-    Materials,
-    DiffuseMap,
-	CustomView
-};
-
+/*
 enum class EViewParamType
 {
     Unknown = -1,
@@ -318,13 +315,13 @@ enum class EViewParamType
 	Right,
 	Visibility,
 	Opacity,
-};
+};*/
 
-enum class EMaterialType
+/*enum class EMaterialType
 {
     Unknown,
     DiffuseMap
-};
+};*/
 
 enum class EMaterialParamType
 {
@@ -361,4 +358,4 @@ enum class EBorderType
     Hexagon,
 };
 
-#endif
+#endif // __E3_ENUM__

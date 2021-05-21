@@ -42,6 +42,7 @@ namespace e3
 		void SetText(const std::string& text, bool translate);
 		std::string GetText();
 		void SetFontSize(const Dim& fontSize);
+		e3::Dim GetFontSize();
 		void SetFontFamily(const std::string& fontFamily);
 		void SetFontStyle(EFontStyle fontStyle);
 		void SetTextColor(const glm::vec4& color);
