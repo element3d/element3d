@@ -5,53 +5,28 @@
 #include "Context.h"
 #include "AssetManager.h"
 #include <e3/Types.h>
-#include <e3/RenderTargetMultisample.h>
-#include <e3/RenderTarget.h>
 #include <functional>
-#include <e3/DropdownLayout.h>
-#include <e3/SelectionLayer.h>
-#include <Carbon/Buffer.h>
-#include <e3/Camera.h>
 #include <e3/MouseEvent.h>
 #include <e3/ScaleEvent.h>
+#if __E3_OS_ANDROID__
+#include "Android/Application.h"
+#endif
 
 namespace e3
 {
-
-	struct KeyEvent 
-	{
-		EKey Key;
-		int Mods;
-		char Char;
-		unsigned short C;
-	};
-
-	struct ResizeEvent
-    {
-	    float Width;
-	    float Height;
-    };
-
     struct MouseMoveEvent : public MouseEvent
     {
         float dx;
         float dy;
     };
 
-    struct MouseCurrentInfo
-    {
-        glm::vec2 LastDownPosition;
-		std::clock_t LastDownTime;
-		bool CheckForMouseLongDown;
-		bool CheckForLongClick;
-    };
-
-    class Application : public e3::Context 
+    class Application : public e3::Context
+#if __E3_OS_ANDROID__
+, public e3::Android::Application
+#endif
 	{
-		typedef Callback<void(int width, int height)> OnResizeCallback;
-		typedef std::function<void(bool)> OnKeyboardStateChangeCallback;
     public:
-		Application(const std::string& applicationName, EE3OS os, EE3Target target, e3::Size2i windowSize, e3::Size2i resolution, float density);
+		Application(const std::string& applicationName, EE3OS os, EE3Target target, e3::Size2i windowSize, e3::Size2i resolution);
         virtual ~Application();
 
     public:
@@ -62,14 +37,17 @@ namespace e3
 
 	public:
 		void PushElement(Element* pElement);
-		void Pop() {}
+		void PopElement();
 		Element* GetElement();
 
     public:
 		Size2i GetWindowSize();
 		Size2i GetResolution();
 		EE3Target GetE3Target();
+		EE3OS GetE3OS();
 		EDisplaySize GetDisplaySize();
+		float GetDisplayDensity();
+		AssetManager* GetAssetManager();
 
     public: // Events
         void OnMouseDown(MouseEvent* pEvent);
@@ -79,93 +57,16 @@ namespace e3
 		void OnMouseHover(MouseEvent* pEvent);
         void OnScroll(MouseEvent* pEvent);
 		void OnMouseWhell(MouseEvent* pEvent);
-        bool OnBack();
-        void OnDestroy();
         void OnKey(e3::EKey key, int mods, char c);
         void OnKey(e3::EKey key, int mods, unsigned short c);
+		bool OnBack();
+		void OnDestroy();
 
 	public:
-		void SetOnKeyboardStateChangeCallback(OnKeyboardStateChangeCallback onKeyboardStateChangeCallback);
         void AddOnResizeCallback(std::shared_ptr<OnResizeCallback> pCallback);
 
 	public:
-		void SetKeyboardHeight(int height);
 		void RequestUpdate();
-
-	private:
-		void OnResizeSynched(float width, float height);
-		void OnMouseDownSynched(MouseEvent* pEvent);
-		void OnDoubleClickSynched(MouseEvent* pEvent);
-		void OnScaleSynched(ScaleEvent* pEvent);
-		void OnMouseLongDownSynched(MouseEvent* pEvent);
-		void OnMouseUpSynched(MouseEvent* pEvent);
-		void OnScrollSynched(MouseEvent* pEvent);
-
-	private:
-		void Create();
-        void Destroy();
-
-	private:
-		bool GetRequestUpdated();
-
-	private:
-        bool mInitialized = false;
-
-	private:
-        std::vector<std::shared_ptr<OnResizeCallback>> mOnResizeCallbacks;
-        bool mResized = false;
-
-        bool mFirstFrame = true;
-        e3::DropdownLayout *mDropdownLayout = nullptr;
-        e3::Element* mDialogContainer = nullptr;
-        e3::Element *mMainLayout = nullptr;
-		e3::SelectionLayer *mSelectionLayer = nullptr;
-     
-      //  bool mOpenNavigationMenu = false;
-      	float mDensity;
-        float mWidth;
-        float mHeight;
-		e3::Size2i mWindowSize;
-		e3::Size2i mResolution;
-        // Carbon::Keyboard* mKeyboard;
-        int mKeyboardHeight = 0;
-		bool mShowKeyboard = false;
-        glm::mat4 mProjection;
-        OnKeyboardStateChangeCallback mOnKeyboardStateChangeCallback = nullptr;
-
-        //e3::RenderTargetMultisample *mRenderTarget = nullptr;
-        e3::RenderTarget *mRenderTargetActivity = nullptr;
-		//e3::RenderTarget *mRenderTargetTmp = nullptr;
-        /*e3::RenderTarget *mRenderTargetShadow = nullptr;
-        e3::RenderTarget *mRenderTargetBloom = nullptr;
-        e3::RenderTarget *mRenderTargetShadow1 = nullptr;*/
-        /*e3::FXBlur *mFXBlur = nullptr;
-        e3::FXBlur *mFXBlurBloom = nullptr;*/
-        //std::mutex mActivityMutex;
-        //e3::Picker mPicker;
-        /*GLuint mFramebuffer = 0;
-        GLuint mFramebufferMSAA = 0;
-        GLuint mRenderbuffer = 0;
-        GLuint mRenderbufferMSAA = 0;
-        GLuint mRenderbufferDepth = 0;
-        GLuint mRenderbufferDepthMSAA = 0;
-        GLuint mTexture = 0;*/
-        MouseCurrentInfo mMouseCurrentInfo;
-        std::queue<MouseEvent*> mEvents;
-		std::queue<KeyEvent*> mKeyEvents;
-		std::queue<ResizeEvent*> mResizeEvents;
-        std::mutex mEventMutex;
-
-        std::shared_ptr<Camera> mCamera = nullptr;
-        GLuint mVAO = 0;
-        Carbon::Buffer* mVertexBuffer = nullptr;
-        Carbon::Buffer* mIndexBuffer = nullptr;
-
-        std::vector<Element*> mStack;
-        bool mUpdateRequested = false;
-
-        EE3OS mE3Os;
-        EE3Target mE3Target;
     };
 }
 

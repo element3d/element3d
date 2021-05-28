@@ -6,7 +6,8 @@
 #include <map>
 #include <e3/Enum.h>
 #include <e3/Font.h>
-#include <e3/FontsBase.h>
+#include <e3/AssetManager.h>
+//#include <e3/FontsBase.h>
 #include <memory>
 
 namespace e3 
@@ -16,9 +17,10 @@ namespace e3
 	{
 	public:
 		static FontManager* Get();
-		void Init(FontsBase* pFonts);
+		//void Init(FontsBase* pFonts);
 
 	public:
+		void SetAssetManager(AssetManager* pAssetManager);
 		std::shared_ptr<Font> FindFont(FontParams* pParams);
 
 	private:
@@ -37,6 +39,7 @@ namespace e3
 
 		//FontsBase* mFonts = nullptr;
 		std::map<std::string, std::vector<FontParams>> mSystemFonts;
+		AssetManager* mAssetManager = nullptr;
 	};
 }
 

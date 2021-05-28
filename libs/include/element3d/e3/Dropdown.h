@@ -4,9 +4,6 @@
 #include "DropdownBody.h"
 #include "Enum.h"
 #include "Element.h"
-//#include "Template.h"
-//#include "Activity.h"
-#include "DropdownLayout.h"
 
 namespace e3
 {
@@ -41,7 +38,7 @@ namespace e3
 		void SetOnDropdownStateChangeCallback(OnDropdownStateChangeCallback callback);
 
     private:
-		friend class Application;
+		friend class Context;
         DropdownBody* mBody = nullptr;
         e3::EDropdownState mDropdownState = e3::EDropdownState::Collabsed;
 		OnDropdownStateChangeCallback mOnDropdownStateChangeCallback = nullptr;

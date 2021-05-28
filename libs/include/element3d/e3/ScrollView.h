@@ -2,16 +2,14 @@
 #define __CARBON_SCROLL_VIEW__
 
 #include "Element.h"
-//#include "ApplicationSharedData.h"
 #include "Animation.h"
 #include <mutex>
 
 namespace e3
 {
-	typedef std::function<void(const glm::vec2&)> OnScrollCallback;
-
     class ScrollView : public e3::Element
     {
+		typedef std::function<void(const glm::vec2&)> OnScrollCallback;
     public:
 		ScrollView();
 
@@ -19,13 +17,12 @@ namespace e3
         virtual void Update() override;
 
         virtual void OnMouseMove(MouseEvent* pEvent) override;
-
         virtual bool OnMouseDown(MouseEvent* pEvent) override;
         virtual bool OnMouseUp(MouseEvent* pEvent) override;
 
         bool Scroll(const glm::vec3& direction);
 
-		void SetOnScrollCallback(OnScrollCallback onScrollCallback) { mOnScrollCallback = onScrollCallback; }
+		void SetOnScrollCallback(OnScrollCallback onScrollCallback);
 
 	public:
 		glm::vec2 GetScrollVec();

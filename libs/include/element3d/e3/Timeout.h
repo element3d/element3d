@@ -14,6 +14,8 @@ namespace e3
 	{
 	public:
 		Timeout();
+
+	public:
 		void Start(float duration, OnTimeoutCallback onTimeoutCallback);
 		void Reset(float duration);
 		void Reset();

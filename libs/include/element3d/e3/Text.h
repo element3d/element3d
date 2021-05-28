@@ -26,7 +26,7 @@ namespace e3
 	{
 	public:
 		Text();
-		~Text() {}
+		~Text();
 
 	public:
 		virtual void Render() override;
@@ -38,11 +38,14 @@ namespace e3
 	public:
 		virtual void SetWidth(const Dim& width) override;
 		virtual void SetHeight(const Dim& height) override;
+
 		void SetText(const std::string& text);
 		void SetText(const std::string& text, bool translate);
 		std::string GetText();
+
 		void SetFontSize(const Dim& fontSize);
 		e3::Dim GetFontSize();
+
 		void SetFontFamily(const std::string& fontFamily);
 		void SetFontStyle(EFontStyle fontStyle);
 		void SetTextColor(const glm::vec4& color);
@@ -59,6 +62,7 @@ namespace e3
 		int GetMaxNumLines();
 
 		void SetTextOverflow(ETextOverflow textOverflow);
+
 	private:
 		void InitFont();
 		void UpdateTextBounds();
@@ -72,6 +76,7 @@ namespace e3
 		void GenerateLineCharacterRects(int start, int size, std::vector<e3::Rect2f>& rects);
 
 		void _RenderTextOffscreen();
+
 	private:
 		std::mutex mTextMutex;
 		bool mFontInitializing = false;

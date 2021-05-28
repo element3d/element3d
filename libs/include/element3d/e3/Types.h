@@ -36,7 +36,7 @@ namespace e3
 	typedef std::function<void(MouseEvent* pEvent)> OnMouseEnterCallback;
 	typedef std::function<void(MouseEvent* pEvent)> OnMouseHoverCallback;
 	typedef std::function<void(MouseEvent* pEvent)> OnMouseLeaveCallback;
-	typedef std::function<void(EViewState state)> OnStateChangeCallback;
+	typedef std::function<void(EElementState state)> OnStateChangeCallback;
 	typedef std::function<void(void)> OnSubmitCallback;
 
 	struct Point2f
@@ -196,13 +196,6 @@ namespace e3
 		int        BlurSize;
 		float      Opacity;
 		float      Scale;
-	};
-
-	struct RippleParams
-	{
-		glm::vec4  Color;
-		int        Softness;
-		float      Opacity;
 	};
 }
 

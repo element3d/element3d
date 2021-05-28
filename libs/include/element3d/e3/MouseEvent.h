@@ -20,12 +20,12 @@ namespace e3
 
 		float GetDistanceX();
 		float GetDistanceY();
+
 	private:
 		float mX;
 		float mY;
 		float mDistanceX;
 		float mDistanceY;
-
 	};
 }
 

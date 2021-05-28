@@ -12,9 +12,8 @@
 
 namespace e3
 {
-    class Animation;
-    typedef std::function<void(float)> OnAnimationTickCallback;
-    typedef std::function<void(Animation*)> OnAnimationEndCallback;
+//    class Animation;
+
 
 	enum class EAnimation
 	{
@@ -54,22 +53,22 @@ namespace e3
 
     class Animation
     {
+		typedef std::function<void(float)> OnAnimationTickCallback;
+		typedef std::function<void(Animation*)> OnAnimationEndCallback;
+
     public:
 		Animation();
-
 		~Animation();
 
-		void start(float duration, float min, float max, OnAnimationTickCallback callback, OnAnimationEndCallback endCallback);
-
 		void Start(float duration, OnAnimationTickCallback callback, OnAnimationEndCallback endCallback);
+		void Start(float duration, float min, float max, OnAnimationTickCallback callback, OnAnimationEndCallback endCallback);
 		void Start(float duration, EAnimation animation, OnAnimationTickCallback callback, OnAnimationEndCallback endCallback);
 		void Start(float duration, float min, float max, EAnimation animation, OnAnimationTickCallback callback, OnAnimationEndCallback endCallback);
 
-		void Stop();
-
-		void reset(float duration, float start, float end);
-
+		void Reset(float duration, float start, float end);
 		void Reset(float duration);
+
+		void Stop();
 
     public:
 		void Tick();

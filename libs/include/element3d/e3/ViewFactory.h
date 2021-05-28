@@ -3,6 +3,7 @@
 
 
 #include "Element.h"
+#include "Arc.h"
 #include "TextSpan.h"
 #include "ScrollView.h"
 #include "Text.h"

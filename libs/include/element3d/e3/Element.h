@@ -7,7 +7,7 @@
 #include <e3/Timeout.h>
 #include <glm/glm.hpp>
 #include <e3/Style.h>
-#include "ShapeRenderer.h"
+//#include "ShapeRenderer.h"
 #include <e3/RenderTarget.h>
 #include <e3/Camera.h>
 #include <e3/MouseEvent.h>
@@ -220,8 +220,8 @@ namespace e3
         void SetShadow(const e3::ShadowParams& shadowParams);
         const e3::ShadowParams* GetShadow();
 
-		void SetRipple(const e3::RippleParams& rippleParams);
-		const e3::RippleParams* GetRipple();
+		// void SetRipple(const e3::RippleParams& rippleParams);
+		// const e3::RippleParams* GetRipple();
 
 		void SetOverflow(EOverflow overflow);
 
@@ -236,7 +236,7 @@ namespace e3
 
         virtual float GetMaxZ();
 
-		EViewState GetState();
+		EElementState GetState();
 
 		virtual void Focus();
 		virtual void Unfocus();
@@ -312,7 +312,7 @@ namespace e3
 		static Element *GetFocusedElement();
 
     protected:
-        void SetState(EViewState state);
+        void SetState(EElementState state);
 		virtual void SetScrollTranslation(float value, EOrientation direction);
 		bool UpdateYoga();
 		void UpdateGeometry();
@@ -336,7 +336,7 @@ namespace e3
 
 		float         mOpacityUpdated = false;
 
-        EViewState mState;
+        EElementState mState;
         e3::Transform mInternalTransform;
         e3::Transform mTransform;
 		glm::vec4 mScrollTranslation;
@@ -345,11 +345,11 @@ namespace e3
 		e3::ShadowParams* mShadowParams = nullptr;
         bool mUpdateShadows = false;
 		bool mUpdateTexture = false;
-		e3::RippleParams* mRippleParams = nullptr;
-		float mRippleScale = 0.0f;
-		glm::vec2 mRipplePosition = glm::vec2(0);
-		float mRippleOpacity = 0.0f;
-		e3::Animation* mRippleAnimation = nullptr;
+		//e3::RippleParams* mRippleParams = nullptr;
+		//float mRippleScale = 0.0f;
+		//glm::vec2 mRipplePosition = glm::vec2(0);
+		//float mRippleOpacity = 0.0f;
+		//e3::Animation* mRippleAnimation = nullptr;
 
         bool mForcedWidth = false;
         bool mForcedHeight = false;
@@ -376,7 +376,7 @@ namespace e3
 		
 	protected:
 		e3::RenderTarget* mRenderTarget = 0;
-		ShapeRenderParams* mParams = nullptr;
+		void* mParams = nullptr;
 		glm::vec2 mChildrenScrollDirection = glm::vec2(0);
         std::shared_ptr<Camera> mCamera = nullptr;
 		bool mInternalUpdated = false;

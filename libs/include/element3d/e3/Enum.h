@@ -4,16 +4,6 @@
 #include <Carbon.h>
 #include "CarbonKeys.h"
 
-/*enum EActivityState
-{
-	Initial,
-	OnCreate,
-	OnResume,
-	OnRender,
-	OnStop,
-	OnDestroy,
-};*/
-
 namespace e3
 {
 	struct Enum
@@ -33,48 +23,19 @@ namespace e3
 
 	enum class EElementType
 	{
-	Unknown = -1,
-	Element,
-	/*Activity,
-	AppBar,
-	Drawer,
-	NavigationMenu,
-	NavigationMenuHeader,
-	NavigationMenuItemGroup,
-	NavigationMenuItem,
-	TabNavigationMenu,
-	TabNavigationMenuItem,
-	Adapter,
-	LinearLayout,
-	ShapeView,
-	TextureView,
-	Icon,*/
-	Input,
-	TextArea,
-	Text,
-	/*Button,
-	ListView,
-	RecyclerView,*/
-	ScrollView,
-	/*TabView,
-	TabViewItem,
-	GridView,
-	ExpandView,*/
-	Dropdown,
-	//DropdownHeader,
-	DropdownLayout,
-	/*ProgressBar,
-	Slider,*/
-	FontIcon,
-	/*Checkbox,
-	ModelView3D,
-	Materials,
-	DiffuseMap,
-	CustomView*/
+		Unknown = -1,
+		Element,
+		Input,
+		TextArea,
+		Text,
+		ScrollView,
+		Dropdown,
+		DropdownLayout,
+		FontIcon
 	};
 
 
-	enum class EViewState
+	enum class EElementState
 	{
 		Initial,
 		Enabled,
@@ -106,13 +67,6 @@ namespace e3
 		Horizontal,
 		Vertical
 	};
-
-	/*enum class EGravity
-	{
-		Start,
-		Center,
-		End
-	};*/
 
 	enum class EE3OS 
 	{
@@ -204,11 +158,6 @@ namespace e3
 		End
 	};
 
-	/*enum class EFXType
-	{
-		Shadow
-	};*/
-
 	enum class EPositionType
 	{
 		Relative,
@@ -241,88 +190,19 @@ namespace e3
 		Italic = (1 << 0),
 		Bold = (1 << 1)
 	};
+
+	enum class EShapeType
+	{
+		Unknown,
+		Circle,
+		Rectangle,
+		Hexagon,
+		Triangle,
+		Arc,
+		Custom,
+	};
 }
-
 /*
-enum class EViewParamType
-{
-    Unknown = -1,
-
-    ID,
-	AppBar,
-	Drawer,
-	Base,
-    Orientation,
-    Width,
-	MinWidth,
-	MaxWidth,
-    Height,
-	MinHeight,
-	MaxHeight,
-	AlignItemsVer,
-	AlignItemsHor,
-	MarginTop,
-	MarginBottom,
-	MarginLeft,
-	MarginRight,
-    GravityHor,
-    GravityVer,
-    Text,
-	TextArea,
-	Hint,
-    TextColor,
-	TextAlignVer,
-	TextAlignHor,
-    FontSize,
-    Src,
-	SrcColor,
-	SrcAlign,
-	SrcScale,
-    Scale,
-    Rotate,
-    Translate,
-	ItemHeight,
-	ItemWidth,
-	Title,
-	TitleFontSize,
-	Icon,
-	IconColor,
-	TitleColor,
-	BackgroundColor,
-	BackgroundColorFocused,
-	BackgroundImage,
-	BackgroundImageOpacity,
-	BackgroundSize,
-	BackgroundPosition,
-	BorderSize,
-	BorderColor,
-	BorderRadius,
-	ShapeType,
-	BorderType,
-	NumColumns,
-	RowHeight,
-	Template,
-	Scaling,
-	HeaderTemplate,
-	BodyTemplate,
-	Value,
-	ValueColor,
-	AspectRatio,
-	PositionType,
-	Top,
-	Bottom, 
-	Left,
-	Right,
-	Visibility,
-	Opacity,
-};*/
-
-/*enum class EMaterialType
-{
-    Unknown,
-    DiffuseMap
-};*/
-
 enum class EMaterialParamType
 {
     Unknown,
@@ -339,23 +219,7 @@ enum class EAttachment
 };
 
 #endif
+*/
 
-enum class EShapeType
-{
-    Unknown,
-    Circle,
-    Rectangle,
-    Hexagon,
-	Triangle,
-    Custom,
-};
-
-enum class EBorderType
-{
-    Unknown,
-    Circle,
-    Rectangle,
-    Hexagon,
-};
 
 #endif // __E3_ENUM__
