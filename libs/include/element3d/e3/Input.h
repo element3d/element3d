@@ -36,7 +36,7 @@ namespace e3
 		void SetHint(const std::string &hint, bool translate);
 		void SetHintColor(const glm::vec4 &hintColor);
 
-		virtual void SetScale(const glm::vec3 &direction) override;
+//		virtual void SetScale(const glm::vec3 &direction) override;
 
 		void SetCursorColor(const glm::vec4 &cursorColor);
 		void SetOnSubmitCallback(OnSubmitCallback onSubmitCallback);

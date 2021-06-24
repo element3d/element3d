@@ -23,11 +23,12 @@ namespace e3
 
 		virtual void SetBody(DropdownBody* pBody);
 		DropdownBody* GetBody();
+
 		e3::EDropdownState GetDropdownState();
 
 	public:
 		virtual void SetTranslation(const glm::vec3 &direction) override;
-		virtual void SetTranslation(const glm::vec3 &direction, bool recursive) override;
+		//virtual void SetTranslation(const glm::vec3 &direction, bool recursive) override;
 		virtual void SetTranslation(const glm::mat4& translation) override;
 		virtual void SetTranslation(float value, EOrientation direction) override;
 

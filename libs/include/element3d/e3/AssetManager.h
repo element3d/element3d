@@ -45,7 +45,7 @@ namespace e3
 		AAssetManager* mAAssetManager;
 		e3::Android::Context* mContext = nullptr;
 #endif
-		std::mutex mMutex;
+//		std::mutex mMutex;
 	};
 }
 #endif // __PUZL_ASSETMANAGER_H__

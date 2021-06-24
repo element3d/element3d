@@ -6,7 +6,8 @@
 #include <functional>
 
 #define _t(X) #X, true
-#define _s(X) std::string(#X)
+#define _STRINGIZE(...) #__VA_ARGS__
+#define _s(...) _STRINGIZE(__VA_ARGS__)
 
 namespace e3 
 {

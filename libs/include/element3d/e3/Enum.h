@@ -112,6 +112,19 @@ namespace e3
 		SpaceAround
 	};
 
+	enum class ETransformAlignment
+	{
+		Center,
+		Left,
+		Right,
+		Top,
+		Bottom,
+		TopLeft,
+		TopRight,
+		BottomRight,
+		BottomLeft
+	};
+
 	enum class ETextAlignFlag 
 	{
 		StartHorizontal = 1,

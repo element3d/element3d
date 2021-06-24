@@ -161,6 +161,8 @@ namespace e3
 		bool mFirstFrame = true;
 		std::vector<Element*> mStack;
 		bool mUpdateRequested = false;
+		bool mBackButtonPressed = false;
+		std::mutex mBackButtonMutex;
 
 		// Platform
 #if !__E3_OS_ANDROID__

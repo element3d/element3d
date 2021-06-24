@@ -29,6 +29,7 @@ namespace e3
 		unsigned int TextureHandle;
 		int Width;
 		int Height;
+		int Depth;
 		void* Data;
 	};
 

@@ -5,7 +5,6 @@
 #include "Font.h"
 #include "AssetManager.h"
 #include <Carbon/Texture.h>
-//#include "RenderTarget.h"
 
 namespace e3
 {
@@ -13,6 +12,7 @@ namespace e3
     {
     public:
         FontIcon();
+		~FontIcon() {}
 
     public:
         void Update() override;
@@ -20,22 +20,20 @@ namespace e3
 
     public:
 		void SetFlip(bool flip, EOrientation direction);
-		void setFont(const std::string& font);
-		void setCharcode(int charcode);
+		void SetFont(const std::string& font);
+		void SetCharcode(int charcode);
 		void SetCharcode(const std::string& charcode); 
-		void SetTextColor(const glm::vec4& color);
-		glm::vec4 GetTextColor();
-
-      
+		virtual void SetColor(const glm::vec4& color);
+		glm::vec4 GetColor();
 
     private:
-		bool reloadFont();
+		bool _ReloadFont();
+		virtual void _RenderSnapshotOffscreen(e3::Element* pSnapshotElement, Rect2f parentRect) override;
 
     private:
         glm::vec2 mFontScale = glm::vec2(1.0f);
 		bool mFlip[2];
         std::string mFont = "";
-		//int mFont = -1;
         int mCharcode = -1;
         Texture* mTexture = nullptr;
         Carbon::ShaderProgram* mProgram = nullptr;

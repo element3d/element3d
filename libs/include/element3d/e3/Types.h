@@ -66,6 +66,70 @@ namespace e3
 		Size2i(int w, int h) { Width = w; Height = h; }
 	};
 
+	struct Rect2i
+	{
+		int x;
+		int y;
+		int width;
+		int height;
+		Rect2i() { x = 0; y = 0; width = 0; height = 0; }
+		Rect2i(int xx, int yy, int w, int h) { x = xx; y = yy; width = w; height = h; }
+
+		Point2f tl()
+		{
+			return Point2f(x, y);
+		}
+
+		Point2f br()
+		{
+			return Point2f(x + width, y + height);
+		}
+
+		bool contains(const Point2f& p)
+		{
+			if (p.x >= x && p.y >= y && p.x <= x + width && p.y <= y + height) return true;
+
+			return false;
+		}
+
+		bool containsRect(Rect2i r)
+		{
+			Point2f tl = r.tl();
+			Point2f br = r.br();
+			return contains(tl) && contains(br);
+		}
+
+		bool containsX(float x)
+		{
+			if (x >= this->x && x <= this->x + width) return true;
+
+			return false;
+		}
+
+		bool containsY(float y)
+		{
+			if (y >= this->y && y <= this->y + height) return true;
+
+			return false;
+		}
+
+		bool contains(const glm::vec2& p)
+		{
+			if (p.x >= x && p.y > y && p.x <= x + width && p.y <= y + height) return true;
+
+			return false;
+		}
+
+		Rect2i operator&(const Rect2i& other)
+		{
+			int xx = std::max(x, other.x);
+			int yy = std::max(y, other.y);
+			int w = std::min(x + width, other.x + other.width) - xx;
+			int h = std::min(y + height, other.y + other.height) - yy;
+			return Rect2i(xx, yy, w, h);
+		}
+	};
+
 	struct Rect2f 
 	{
 		float x;
@@ -128,9 +192,10 @@ namespace e3
 			float h = std::min(y + height, other.y + other.height) - yy;
 			return Rect2f(xx, yy, w, h);
 		}
-
-	
 	};
+
+
+
 	struct Dim;
 	struct DimValue
 	{
