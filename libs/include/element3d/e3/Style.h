@@ -42,6 +42,7 @@ namespace e3
 		float MaxHeight;
 		float Z;
 		EShapeType ShapeType;
+		EBorderType BorderType;
 		float AspectRatio;
 		e3::AbsoluteDistance AbsoluteDistance;
 		e3::Padding Padding;
@@ -52,6 +53,8 @@ namespace e3
 		EVisibility   Visibility = EVisibility::Visible;
 		EPositionType PositionType = EPositionType::Relative;
 		bool          Enabled = true;
+		bool		  Inverted = false;
+		glm::vec3     ShapeOffset = glm::vec3(0);
 
 		e3::Background Background;
 		/*glm::vec4     BackgroundColor;

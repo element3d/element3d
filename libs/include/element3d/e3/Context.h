@@ -41,6 +41,7 @@ namespace e3
 	typedef std::function<void(const std::string&)> OnCopyToClipboardCallback;
 	typedef std::function<void(void)> OnGetClipboardStringCallback;
 	typedef std::function<void(ECursor)> OnSetCursorCallback;
+	typedef std::function<void(int width, int height)> OnSetWindowSizeCallback;
 	typedef std::function<void(bool)> OnKeyboardStateChangeCallback;
 	typedef Callback<void(int width, int height)> OnResizeCallback;
 
@@ -61,6 +62,8 @@ namespace e3
 
 		void SetOnSetCursorCallback(OnSetCursorCallback onSetCursorCallback);
 		void SetCursor(ECursor cursor);
+
+		void SetOnSetWindowSizeCallback(OnSetWindowSizeCallback onSetWindowSizeCallback);
 
 		void SetOnCopyToClipboardCallback(OnCopyToClipboardCallback onCopyToClipboardCallback);
 		void CopyToClipboard(const std::string& text);
@@ -158,8 +161,10 @@ namespace e3
 
 		// Misc
 		OnSetCursorCallback mOnSetCursorCallback = nullptr;
+		OnSetWindowSizeCallback mOnSetWindowSizeCallback;
 		bool mFirstFrame = true;
 		std::vector<Element*> mStack;
+		e3::Element* mPendingElement = nullptr;
 		bool mUpdateRequested = false;
 		bool mBackButtonPressed = false;
 		std::mutex mBackButtonMutex;

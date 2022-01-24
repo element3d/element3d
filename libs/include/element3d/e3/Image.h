@@ -15,6 +15,7 @@ class Texture;
 namespace e3 
 {
 	class Image;
+	
 	typedef std::function<void(std::shared_ptr<e3::Image>)> OnImageLoadCallback;
 	typedef std::function<void()> OnImageLoadCallback1;
 
@@ -43,12 +44,15 @@ namespace e3
 		void Load(const std::string& filename, OnImageLoadCallback1 callback);
 		void LoadFile(const std::string& filename, std::shared_ptr<OnLoadCallback> callback);
 		static void Load(const std::string& filename, OnImageLoadCallback callback);
+		void Save(const std::string& filename);
 		//static std::shared_ptr<e3::Image> LoadAsset(int id);
 
 	public:
+		int GetNVGImage() { return mNVGImage; }
 		bool empty() { return mEmpty; }
 		float GetWidth();
 		float GetHeight();
+		int GetNumChannels();
 		unsigned char* GetData() { return mData; }
 		void SetOpacity(float opacity) { mOpacity = opacity; }
 		float GetOpacity() { return mOpacity; }
@@ -73,6 +77,10 @@ namespace e3
 		//std::thread mThread;
         OnLoadCallback* mCall = nullptr;
 		float mOpacity = 1.0f;
+
+		int mNVGImage = -1;
+
+		friend class NVGRenderer;
 	};
 }
 

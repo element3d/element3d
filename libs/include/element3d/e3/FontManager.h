@@ -22,6 +22,7 @@ namespace e3
 	public:
 		void SetAssetManager(AssetManager* pAssetManager);
 		std::shared_ptr<Font> FindFont(FontParams* pParams);
+		std::shared_ptr<Font> FindFontByPath(const std::string& path, int fontSize);
 
 	private:
 		FontManager();
@@ -40,6 +41,7 @@ namespace e3
 		//FontsBase* mFonts = nullptr;
 		std::map<std::string, std::vector<FontParams>> mSystemFonts;
 		AssetManager* mAssetManager = nullptr;
+		std::map<std::string, std::map<int, std::shared_ptr<Font>>> mLoadedFonts;
 	};
 }
 

@@ -21,14 +21,17 @@ namespace e3
 	class Application;
     class Element : public _e3::ElementBase
     {
+		typedef std::function<void(void)> OnLoadCallback;
     public:
-        Element();
+        Element(Element* pParent = nullptr);
         virtual ~Element();
 
     public:
 		virtual void Build();
         virtual void Render();
         virtual void Update();
+		virtual void OnLoad() {}
+		void SetOnLoadCallback(OnLoadCallback onLoadCallback);
 
 	public:
 		static Application* GetApplication();
@@ -66,6 +69,8 @@ namespace e3
         }*/
 
     public:
+		virtual e3::Element* Clone();
+
         void SetId(int id);
         int GetId() const;
 
@@ -75,7 +80,7 @@ namespace e3
         void SetUsrPtr(void* pUsrPtr);
         void* GetUsrPtr();
 
-        void SetParent(e3::Element* pParent);
+		virtual void SetParent(e3::Element* pParent);
         Element* GetParent() const;
 
 		virtual void Focus();
@@ -139,6 +144,7 @@ namespace e3
         float GetMarginBottom();
         float GetMarginLeft();
         float GetMarginRight();
+		float GetMargin();
 
 		// Shape type
 		void SetShapeType(EShapeType shapeType);
@@ -168,11 +174,14 @@ namespace e3
 		void SetRightPercent(int percent);
 
 		// Border
+		void SetBorderType(EBorderType borderType);
+		EBorderType GetBorderType();
+
 		virtual void SetBorderRadius(float radius);
 		virtual void SetBorderRadius(const glm::vec4 &radius);
 		const glm::vec4& GetBorderRadius() const;
 
-		void SetBorderSize(float borderSize);
+		void SetBorderSize(const Dim& value);
 		const float GetBorderSize() const;
 
 		void SetBorderColor(const glm::vec4 &color);
@@ -180,15 +189,16 @@ namespace e3
 		const glm::vec4& GetBorderColor() const;
 
 		// Background color
-		void SetBackgroundColor(const glm::vec4 &color);
-		void SetBackgroundColor(const glm::vec3 &color);
-		const glm::vec4& GetBackgroundColor() const;
+		virtual void SetBackgroundColor(const glm::vec4 &color);
+		virtual void SetBackgroundColor(const glm::vec3 &color);
+		virtual glm::vec4 GetBackgroundColor();
 
 		// Background image
 		void SetBackground(const e3::Background& background);
 		std::shared_ptr<Image> GetBackgroundImage();
 		std::shared_ptr<Image> GetBackgroundImage(int index);
 		void SetBackgroundImagePath(const std::string &path);
+		void SetBackgroundImage(const std::string &path);
 		//void SetBackgroundImage(int id);
 		void SetBackgroundImage(const std::string &path, OnImageLoadCallback callback);
 		void SetBackgroundImage(const std::string &path, OnImageLoadCallback1 callback);
@@ -205,6 +215,12 @@ namespace e3
 		const glm::vec4& GetBackgroundImageColor() const;
 
 		// Other styles
+		void SetClipRect(const e3::ClipRect2f& clipRect);
+		void UnsetClipRect();
+
+		void SetSmoothFactor(float smoothFactor);
+		float GetSmoothFactor();
+
         void SetScaling(EScaling scaling);
         EScaling GetScaling();
 
@@ -220,8 +236,17 @@ namespace e3
 		virtual void SetEnabled(bool enabled);
 		bool GetEnabled();
 
+		void SetShapeOffset(const glm::vec3& offset);
+		glm::vec3 GetShapeOffset();
+
+		void SetInverted(bool inverted);
+		bool GetInverted();
+
         void SetShadow(const e3::ShadowParams& shadowParams);
         const e3::ShadowParams* GetShadow();
+
+		void SetLinearGradient(const e3::LinearGradientParams& linearGradientParams);
+		const e3::LinearGradientParams* GetLinearGradient();
 
 		void SetOverflow(EOverflow overflow);
 
@@ -301,9 +326,18 @@ namespace e3
 		void Clear();
 		void Clear(bool destroyElements);
 
+		public:
+			glm::vec2 GetScrollVec();
+
 	protected:
 		friend class Application;
-
+		int GetMaxStecilLayer();
+		int GetMaxStecilLayer(e3::Element* pE);
+		bool _Scroll(const glm::vec3& direction);
+		bool _ScrollUnsafe(const glm::vec3& direction);
+		int mStencilLayer = 1;
+		bool mPicked = false;
+		OnLoadCallback mOnLoadCallback = nullptr;
     };
 
 }

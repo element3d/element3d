@@ -53,23 +53,28 @@ namespace e3
 
     class Animation
     {
-		typedef std::function<void(float)> OnAnimationTickCallback;
-		typedef std::function<void(Animation*)> OnAnimationEndCallback;
+		typedef std::function<void(float)> OnValueCallback;
+		typedef std::function<void(void)> OnEndCallback;
 
     public:
 		Animation();
 		~Animation();
 
-		void Start(float duration, OnAnimationTickCallback callback, OnAnimationEndCallback endCallback);
-		void Start(float duration, float min, float max, OnAnimationTickCallback callback, OnAnimationEndCallback endCallback);
-		void Start(float duration, EAnimation animation, OnAnimationTickCallback callback, OnAnimationEndCallback endCallback);
-		void Start(float duration, float min, float max, EAnimation animation, OnAnimationTickCallback callback, OnAnimationEndCallback endCallback);
+		void SetDuration(float duration);
+
+		void Start();
+		void Start(float duration, OnValueCallback callback, OnEndCallback endCallback);
+		void Start(float duration, float min, float max, OnValueCallback callback, OnEndCallback endCallback);
+		void Start(float duration, EAnimation animation, OnValueCallback callback, OnEndCallback endCallback);
+		void Start(float duration, float min, float max, EAnimation animation, OnValueCallback callback, OnEndCallback endCallback);
 
 		void Reset(float duration, float start, float end);
 		void Reset(float duration);
 
 		void Stop();
 
+		void AddOnValueCallback(OnValueCallback c);
+		void AddOnEndCallback(OnEndCallback c);
     public:
 		void Tick();
 
@@ -78,10 +83,10 @@ namespace e3
 
     private:
         std::chrono::time_point<std::chrono::system_clock> mBegin;
-        OnAnimationTickCallback mCallback;
-        OnAnimationEndCallback mEndCallback;
+        std::vector<OnValueCallback> mCallbacks;
+        std::vector<OnEndCallback> mEndCallbacks;
         float mDuration = 0.0f;
-        bool mStop = false;
+        bool mStop = true;
         float mStartValue = 0.0f;
         float mEndValue = 1.0f;
 

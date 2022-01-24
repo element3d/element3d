@@ -6,24 +6,43 @@
 #include <e3/Camera.h>
 #include <e3/RenderTarget.h>
 
+namespace e3
+{
+	class TextArea;
+	class ShapeTextureAtlas;
+	class GradientTextureAtlas;
+}
+
 namespace _e3 
 {
 	class ElementBase 
 	{
+		friend class e3::TextArea;
+		friend class e3::ShapeTextureAtlas;
+		friend class e3::GradientTextureAtlas;
 	public:
 		ElementBase();
 		virtual ~ElementBase();
 
 	protected:
 		void _UpdateNode();
+		void _UpdateNodeOpt(bool forceUpdateGeo = false);
+		void _UpdateTransforms();
 		//void _UpdateGeometry();
 		int _FindElementIndexById(int id);
 		void _UpdateGeometryRecoursive();
 		bool _UpdateYoga();
 		virtual void _SetScrollTranslation(float value, e3::EOrientation direction);
+		virtual void _SetScrollTranslation(const glm::mat4& scrollTransform);
 		void _SetState(e3::EElementState state);
 		void _SetParentTransform(const glm::mat4& transform);
+
+		bool _CalcRect();
+		bool _CalcInternalTransform();
 		void _CalcGeometry();
+		void _CalcGeometryOpt();
+		void _CalcRotation();
+		void _CalcScale();
 
 		virtual void RenderToTexture();
 		virtual bool _PrepareSnapshot();
@@ -42,7 +61,12 @@ namespace _e3
 		e3::Rect2f        mGeometry;
 		float             mOpacityUpdated = false;
 
+		bool mInternalTransformUpdated = true;
+		bool mRotationUpdated = true;
+		bool mScaleUpdated = true;
+
 		e3::EElementState mState;
+		e3::EElementHoverState mHoverState = e3::EElementHoverState::Initial;
 		e3::Transform mInternalTransform;
 		e3::Transform mTransform;
 		e3::ETransformAlignment mScaleAlignment = e3::ETransformAlignment::Center;
@@ -51,10 +75,27 @@ namespace _e3
 		glm::mat4 mScrollMatrix;
 		glm::mat4 mParentTransform = glm::mat4(1);
 
+		// Transform corrections
+		glm::mat4 mInternalTranslateMinus = glm::mat4(1);
+		// Rotation
+		glm::mat4 mRotationTranslateX = glm::mat4(1);
+		glm::mat4 mRotationTranslateMinusX = glm::mat4(1);
+		glm::mat4 mRotationTranslateY = glm::mat4(1);
+		glm::mat4 mRotationTranslateMinusY = glm::mat4(1);
+		glm::mat4 mRotationTransformFull = glm::mat4(1);
+		// Scale
+		glm::mat4 mScaleTranslateX = glm::mat4(1);
+		glm::mat4 mScaleTranslateMinusX = glm::mat4(1);
+		glm::mat4 mScaleTranslateY = glm::mat4(1);
+		glm::mat4 mScaleTranslateMinusY = glm::mat4(1);
+		glm::mat4 mScaleTransformFull = glm::mat4(1);
 
 		e3::ShadowParams* mShadowParams = nullptr;
+		e3::LinearGradientParams* mLinearGradientParams = nullptr;
+
 		bool mUpdateShadows = false;
 		bool mUpdateTexture = false;
+		bool mUpdateGradient = false;
 		bool mUpdateSnapshot = true;
 
 		bool mForcedWidth = false;
@@ -91,7 +132,12 @@ namespace _e3
 		std::vector<e3::Element*> mChildren;
 		bool mGeometrUpdated = false;
 		bool mLayoutUpdated = false;
-
+		bool mRenderToTexture = false;
+		e3::ClipRect2f mClipRect;
+		bool mHasClipRect = false;
+		void* mTextureAtlasShape = nullptr;
+		void* mTextureAtlasGradientData = nullptr;
+		bool mFirstFrame = true;
 		struct
 		{
 			bool HasWidth = false;
@@ -137,6 +183,9 @@ namespace _e3
 			e3::Dim Top;
 			bool HasBottom = false;
 			e3::Dim Bottom;
+
+			bool HasBorderSize = false;
+			e3::Dim BorderSize;
 		} mDims;
 	};
 }

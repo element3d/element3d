@@ -37,6 +37,7 @@ namespace e3
 		void Show();
 
 	public:
+		void SetSize(int width, int height);
 		Size2i GetSize() { return mParams.Size; }
 		Size2i GetResolution() { return mParams.Resoluction; }
 

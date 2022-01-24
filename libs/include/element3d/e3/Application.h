@@ -8,12 +8,17 @@
 #include <functional>
 #include <e3/MouseEvent.h>
 #include <e3/ScaleEvent.h>
+#include <e3/Image.h>
+#include <e3/Enum.h>
+#include <e3/Animation.h>
 #if __E3_OS_ANDROID__
 #include "Android/Application.h"
 #endif
 
 namespace e3
 {
+	
+
     struct MouseMoveEvent : public MouseEvent
     {
         float dx;
@@ -30,17 +35,21 @@ namespace e3
         virtual ~Application();
 
     public:
-        void Render();
+        virtual void Render();
+		e3::Image* RenderToImage();
 
         virtual void OnResize(float width, float height) = 0;
         void Resize(float width, float height);
 
 	public:
 		void PushElement(Element* pElement);
+		void PushElement(Element* pElement, e3::Animation* pTransitionAnimation);
 		void PopElement();
+		void PopElement(e3::Animation* pTransitionAnimation);
 		Element* GetElement();
 
     public:
+		void SetWindowSize(int width, int height);
 		Size2i GetWindowSize();
 		Size2i GetResolution();
 		EE3Target GetE3Target();
@@ -59,7 +68,8 @@ namespace e3
 		void OnMouseWhell(MouseEvent* pEvent);
         void OnKey(e3::EKey key, int mods, char c);
         void OnKey(e3::EKey key, int mods, unsigned short c);
-		bool OnBack();
+		virtual bool OnBack();
+		virtual bool OnBack(e3::Animation* pTransitionAnimation);
 		void OnDestroy();
 
 	public:
@@ -67,6 +77,11 @@ namespace e3
 
 	public:
 		void RequestUpdate();
+
+		void SetRenderer(e3::ERenderer r);
+
+	private:
+		bool _OnMouseHover(e3::MouseEvent* pEvent, e3::Element* pElement, bool checkForHover);
     };
 }
 

@@ -21,6 +21,12 @@ namespace e3
 		static int sCount;
 	};
 
+	enum class ERenderer
+	{
+		Element3D,
+		NanoVG
+	};
+
 	enum class EElementType
 	{
 		Unknown = -1,
@@ -53,6 +59,14 @@ namespace e3
 		MouseHover,
 		MouseLeave,
 		Clicked,
+	};
+
+	enum class EElementHoverState
+	{
+		Initial,
+		MouseEnter,
+		MouseHover,
+		MouseLeave
 	};
 
 	enum class EVisibility
@@ -212,7 +226,14 @@ namespace e3
 		Hexagon,
 		Triangle,
 		Arc,
+		Star,
 		Custom,
+	};
+
+	enum class EBorderType 
+	{
+		Circular,
+		Cut
 	};
 }
 /*

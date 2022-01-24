@@ -12,6 +12,7 @@ namespace e3
 		EBackgroundPosition Position;
 		glm::vec4 Color;
 		glm::vec4 ImageColor;
+		float ImageOpacity;
 		std::vector<std::shared_ptr<Image>> Images;
 	};
 }

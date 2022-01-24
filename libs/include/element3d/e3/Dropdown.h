@@ -12,10 +12,10 @@ namespace e3
     class Dropdown : public Element
     {
     public:
-		Dropdown();
+		Dropdown(Element* pParent = nullptr);
 		~Dropdown();
 
-		void Render() override;
+		virtual void Render() override;
 
 	public:
 		virtual void Expand();

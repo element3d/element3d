@@ -1,8 +1,9 @@
 #ifndef __E3_INPUT__
 #define __E3_INPUT__
 
-#include "ScrollView.h"
-
+// #include "ScrollView.h"
+#include <e3/Element.h>
+#include <e3/Font.h>
 namespace ftgl
 {
 	struct vertex_buffer_t;
@@ -18,8 +19,10 @@ namespace e3
 	{
 		friend class SelectionLayer;
 		typedef std::function<void(const std::string& text)> OnChangeCallback;
+		typedef std::function<void(void)> OnFocusInCallback;
+		typedef std::function<void(void)> OnFocusOutCallback;
 	public:
-		Input();
+		Input(Element* pParent = nullptr);
 
 	public:
 		virtual void Render() override;
@@ -35,13 +38,15 @@ namespace e3
 		void SetHint(const std::string &hint);
 		void SetHint(const std::string &hint, bool translate);
 		void SetHintColor(const glm::vec4 &hintColor);
-
+		void SetMaxLength(int maxLength);
+		void SetObscureText(bool obscureText);
 //		virtual void SetScale(const glm::vec3 &direction) override;
 
 		void SetCursorColor(const glm::vec4 &cursorColor);
 		void SetOnSubmitCallback(OnSubmitCallback onSubmitCallback);
 		void SetOnChangeCallback(OnChangeCallback onChangeCallback);
-
+		void SetOnFocusInCallback(OnFocusInCallback onFocusInCallback);
+		void SetOnFocusOutCallback(OnFocusOutCallback onFocusOutCallback);
 	public:
 		void OnKey(e3::EKey key, int mods, char c);
 		void OnKey(e3::EKey key, int mods, unsigned short c);
@@ -66,21 +71,24 @@ namespace e3
 		void _ReactOnClick();
 	private:
 		bool mSimulateSroll = false;
-		ScrollView* mScrollView = nullptr;
+		e3::Element* mScrollView = nullptr;
 		Element* mTextLayout = nullptr;
 		Element* mTextSelectionBackground = nullptr;
 
 		std::wstring mText = L"";
-
 		std::string mHint = "";
 		std::vector<glm::ivec4> mLineBBoxes;
 		std::vector<e3::Rect2f> mCharRects;
 		int mI18Id = -1;
+		int mMaxLength = -1;
+		bool mObscureText = true;
+		e3::Element* mObscureTextElement = nullptr;
 
 		ftgl::vertex_buffer_t* mBuffer;
-		ftgl::texture_atlas_t* mAtlas;
+		//ftgl::texture_atlas_t* mAtlas;
 		ftgl::markup_t* mMarkup;
-		ftgl::texture_font_t* font = nullptr;
+		//ftgl::texture_font_t* font = nullptr;
+
 
 		bool mHindUpdated = false;
 		bool mShowHint = true;
@@ -108,6 +116,7 @@ namespace e3
 		bool mSelectionEnabled = false;
 		std::clock_t mCursorAnimationTimerStart;
 		float mFontSize = 0.0f;
+		std::shared_ptr<e3::Font> mFont = nullptr;
 
 		Carbon::ShaderProgram* mShaderProgram = nullptr;
 		bool mHideCursorDropOnScroll = true;
@@ -120,6 +129,8 @@ namespace e3
 
 		OnSubmitCallback mOnSubmitCallback;
 		OnChangeCallback mOnChangeCallback;
+		OnFocusInCallback mOnFocusInCallback;
+		OnFocusOutCallback mOnFocusOutCallback;
 	};
 }
 

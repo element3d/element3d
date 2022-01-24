@@ -8,6 +8,7 @@ namespace ftgl
 {
 	struct vertex_buffer_t;
 	struct texture_atlas_t;
+	struct texture_glyph_t;
 	struct texture_font_t;
 	struct font_manager_t;
 	struct markup_t;
@@ -42,6 +43,7 @@ namespace e3
 	public:
 		ftgl::texture_font_t* GetFtglFont() { return mFont; }
 		bool Load(int fontSize, const std::string& path);
+		ftgl::texture_glyph_t* GetGlyph(const char* codepoint);
 		FontTextureAtlas GetTextureAtlas();
 
 	private:

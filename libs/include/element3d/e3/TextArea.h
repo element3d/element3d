@@ -3,6 +3,7 @@
 
 #include "Element.h"
 #include "ScrollView.h"
+#include <e3/Font.h>
 
 namespace ftgl
 {
@@ -18,7 +19,7 @@ namespace e3
 	class TextArea : public Element
 	{
 	public:
-		TextArea();
+		TextArea(Element* pParent = nullptr);
 
 	public:
 		virtual void Render() override;
@@ -89,9 +90,10 @@ namespace e3
 
 
 		ftgl::vertex_buffer_t* mBuffer;
-		ftgl::texture_atlas_t* mAtlas;
+		//ftgl::texture_atlas_t* mAtlas;
 		ftgl::markup_t* mMarkup;
-		ftgl::texture_font_t* font;
+		std::shared_ptr<e3::Font> mFont = nullptr;
+		//ftgl::texture_font_t* font;
 
 		struct
 		{

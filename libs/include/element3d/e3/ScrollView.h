@@ -11,7 +11,7 @@ namespace e3
     {
 		typedef std::function<void(const glm::vec2&)> OnScrollCallback;
     public:
-		ScrollView();
+		ScrollView(Element* pParent = nullptr);
 
 		void Render() override;
         virtual void Update() override;
@@ -32,7 +32,7 @@ namespace e3
 
     private:
 		bool mPicked = false;
-		Element* mContainer = nullptr;
+	//	Element* mContainer = nullptr;
         bool mEnableScroll = false;
         float mScrollSpeed = 0.0f;
         std::clock_t mBegin;

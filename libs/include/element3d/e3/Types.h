@@ -136,64 +136,39 @@ namespace e3
 		float y;
 		float width;
 		float height;
+
 		Rect2f() { x = 0; y = 0; width = 0; height = 0; }
 		Rect2f(float xx, float yy, float w, float h) { x = xx; y = yy; width = w; height = h; }
 
-		Point2f tl()
-		{
-			return Point2f(x, y);
-		}
-
-		Point2f br()
-		{
-			return Point2f(x + width, y + height);
-		}
-
-		bool contains(const Point2f& p)
-		{
-                        if (p.x >= x && p.y >= y && p.x <= x + width && p.y <= y + height) return true;
-
-			return false;
-		}
-
-                bool containsRect(Rect2f r)
-		{
-                    Point2f tl = r.tl();
-                    Point2f br = r.br();
-                    return contains(tl) && contains(br);
-		}
-
-		bool containsX(float x)
-		{
-			if (x >= this->x && x <= this->x + width) return true;
-
-			return false;
-		}
-
-		bool containsY(float y)
-		{
-			if (y >= this->y && y <= this->y + height) return true;
-
-			return false;
-		}
-
-		bool contains(const glm::vec2& p)
-		{
-			if (p.x >= x && p.y > y && p.x <= x + width && p.y <= y + height) return true;
-
-			return false; 
-		}
-
-		Rect2f operator&(const Rect2f& other) 
-		{
-			float xx = std::max(x, other.x);
-			float yy = std::max(y, other.y);
-			float w = std::min(x + width, other.x + other.width) - xx;
-			float h = std::min(y + height, other.y + other.height) - yy;
-			return Rect2f(xx, yy, w, h);
-		}
+		Point2f tl();
+		Point2f br();
+		bool contains(const Point2f& p);
+		bool containsRect(Rect2f r);
+		bool containsX(float x);
+		bool containsY(float y);
+		bool contains(const glm::vec2& p);
+		Rect2f operator&(const Rect2f& other);
 	};
 
+	class ClipRect2f 
+	{
+	public:
+		ClipRect2f();
+		ClipRect2f(float xx, float yy, float w, float h);
+		ClipRect2f(const e3::Rect2f& rect);
+
+		e3::Rect2f GetRect();
+		void operator=(const e3::Rect2f& rect);
+		void SetScale(const glm::vec3& direction, e3::ETransformAlignment alignment);
+	public:
+		float x;
+		float y;
+		float width;
+		float height;
+
+	private:
+		e3::Rect2f mOriginalRect;
+	};
 
 
 	struct Dim;
@@ -242,6 +217,7 @@ namespace e3
 		Dim(const DimValue& mobileSmall, const DimValue& mobileMedium, const DimValue& mobileLarge, const DimValue& dekstopSmall, const DimValue& dekstopMedium, const DimValue& dekstopLarge);
 
 		void operator=(const DimValue& v);
+		void operator=(float v);
 		//operator DimValue() const;
 		operator float() const;
 	};
@@ -258,9 +234,17 @@ namespace e3
 	{
 		glm::vec4  Color;
 		glm::ivec2 Offset;
-		int        BlurSize;
+		e3::Dim    BlurSize;
 		float      Opacity;
 		float      Scale;
+	};
+
+	struct LinearGradientParams
+	{
+		glm::vec4  StartColor;
+		glm::vec4  EndColor;
+		glm::ivec2 Offset;
+		int Angle;
 	};
 }
 

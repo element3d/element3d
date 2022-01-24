@@ -8,7 +8,7 @@
 namespace e3 
 {
 	class Timeout;
-	typedef std::function<void(Timeout*)> OnTimeoutCallback;
+	typedef std::function<void(void)> OnTimeoutCallback;
 
 	class Timeout 
 	{
@@ -19,6 +19,8 @@ namespace e3
 		void Start(float duration, OnTimeoutCallback onTimeoutCallback);
 		void Reset(float duration);
 		void Reset();
+
+		void Stop();
 
 	public:
 		void Tick();

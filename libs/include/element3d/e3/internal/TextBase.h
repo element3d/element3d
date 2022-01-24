@@ -18,7 +18,7 @@ namespace _e3
 	class TextBase : public e3::Element
 	{
 	public:
-		TextBase();
+		TextBase(Element* pParent = nullptr);
 
 	protected:
 		void UpdateTextBounds();
@@ -32,7 +32,7 @@ namespace _e3
 		void InitFont();
 		virtual void RenderToTexture() override;
 		virtual void _RenderSnapshotOffscreen(e3::Element* pSnapshotElement, e3::Rect2f parentRect) override;
-
+		void _UpdateFont();
 	protected:
 		std::mutex mTextMutex;
 		bool mFontInitializing = false;
@@ -42,6 +42,7 @@ namespace _e3
 		//	ftgl::texture_font_t* font;
 
 		std::shared_ptr<e3::Font> mFont = nullptr;
+		std::string mFontPath;
 		glm::vec4 mBBox;
 		e3::EFontStyle mFontStyle = e3::EFontStyle::Normal;
 		std::string mFontFamily;
@@ -82,7 +83,7 @@ namespace _e3
 		};
 
 		TextParams* mCurrentTextParams = nullptr;
-		TextParams* mPendingTextParams = nullptr;
+		//TextParams* mPendingTextParams = nullptr;
 
 		struct
 		{

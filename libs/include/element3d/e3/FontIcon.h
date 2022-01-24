@@ -11,7 +11,7 @@ namespace e3
     class FontIcon : public Element
     {
     public:
-        FontIcon();
+        FontIcon(Element* pParent = nullptr);
 		~FontIcon() {}
 
     public:

@@ -10,9 +10,14 @@ namespace e3
 	class DropdownBody : public Element
 	{
 	public:
-		DropdownBody();
+		DropdownBody(Element* pParent = nullptr);
 
 		Dropdown* GetDropdown();
+
+		virtual void Render() override 
+		{
+			Element::Render();
+		}
 
 	private:
 		friend class Dropdown;

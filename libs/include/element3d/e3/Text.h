@@ -18,7 +18,7 @@ namespace e3
 	class Text : public _e3::TextBase
 	{
 	public:
-		Text();
+		Text(Element* pParent = nullptr);
 		~Text();
 
 	public:
@@ -37,6 +37,7 @@ namespace e3
 		void SetFontSize(const Dim& fontSize);
 		e3::Dim GetFontSize();
 
+		void SetFont(const std::string& font);
 		void SetFontFamily(const std::string& fontFamily);
 		void SetFontStyle(EFontStyle fontStyle);
 		virtual void SetTextColor(const glm::vec4& color);
