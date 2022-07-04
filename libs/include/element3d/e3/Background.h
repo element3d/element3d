@@ -13,7 +13,7 @@ namespace e3
 		glm::vec4 Color;
 		glm::vec4 ImageColor;
 		float ImageOpacity;
-		std::vector<std::shared_ptr<Image>> Images;
+        std::shared_ptr<e3::Image> Image;
 	};
 }
 

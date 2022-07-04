@@ -1,8 +1,8 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "Carbon.h"
 #include <e3/Types.h>
+#include <e3/OpenGLES.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 

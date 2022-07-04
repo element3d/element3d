@@ -1,7 +1,7 @@
 #ifndef __CARBON_RENDER_TARGET__
 #define __CARBON_RENDER_TARGET__
 
-#include <Carbon.h>
+#include <e3/GLTexture.h>
 
 namespace e3
 {

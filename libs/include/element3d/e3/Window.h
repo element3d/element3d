@@ -4,7 +4,7 @@
 #include <iostream>
 #include <cctype>
 #include <functional>
-#include <Carbon/OpenGLES.h>
+#include <e3/OpenGLES.h>
 #include <e3/CarbonKeys.h>
 #include <e3/Types.h>
 #include <e3/MouseEvent.h>

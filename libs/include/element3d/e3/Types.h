@@ -7,9 +7,10 @@
 #include <cmath>
 #include "MouseEvent.h"
 #include "ScaleEvent.h"
+#include <mutex>
 #include <glm/glm.hpp>
 
-template<class _Rp>
+/*template<class _Rp>
 class Callback
 {
 public:
@@ -19,11 +20,42 @@ public:
 	Callback() {}
 	void Unsubscribe() { s = false; }
 	bool GetSubscribed() { return s; }
-};
+};*/
+
+
 
 namespace e3
 {
 	class Element;
+
+	class Callable 
+	{
+	public:
+		Callable() {}
+		Callable(e3::Element* pParent);
+
+		e3::Element* GetParent() { return mParent; }
+
+		bool s = false;
+		void Unsubscribe() { std::lock_guard<std::mutex> l(mMutex);  s = false; }
+		bool GetSubscribed() { std::lock_guard<std::mutex> l(mMutex);  return s; }
+
+	protected:
+		std::mutex mMutex;
+		e3::Element* mParent = nullptr;
+	};
+
+	template<class _Rp>
+	class Callback : public Callable
+	{
+	public:
+		std::function<_Rp> f;
+		void Call() { std::lock_guard<std::mutex> l(mMutex); f(); }
+		Callback(std::function<_Rp> ff) : Callable() { std::lock_guard<std::mutex> l(mMutex); f = ff; s = true; }
+		Callback(e3::Element* pParent, std::function<_Rp> ff) : Callable(pParent) { std::lock_guard<std::mutex> l(mMutex);  f = ff; s = true;  }
+		
+		~Callback() { Unsubscribe(); }
+	};
 
 	typedef std::function<void(MouseEvent* pEvent)> OnClickCallback;
 	typedef std::function<void(MouseEvent* pEvent)> OnDoubleClickCallback;
@@ -241,10 +273,19 @@ namespace e3
 
 	struct LinearGradientParams
 	{
+		glm::vec2 Offset;
+		int Angle;
 		glm::vec4  StartColor;
 		glm::vec4  EndColor;
-		glm::ivec2 Offset;
-		int Angle;
+	};
+
+	struct RadialGradientParams
+	{
+		glm::vec2 Offset;
+		float InnerRadius;
+		float OuterRadius;
+		glm::vec4  InnerColor;
+		glm::vec4  OuterColor;
 	};
 }
 

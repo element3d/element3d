@@ -1,9 +1,11 @@
 #ifndef __E3_INPUT__
 #define __E3_INPUT__
 
-// #include "ScrollView.h"
 #include <e3/Element.h>
 #include <e3/Font.h>
+#include <e3/GLBuffer.h>
+#include <e3/GLShaderProgram.h>
+
 namespace ftgl
 {
 	struct vertex_buffer_t;
@@ -62,13 +64,15 @@ namespace e3
 	private:
 		void CreateTextBuffer();
 		void UpdateCursorPosition();
-		glm::vec4 GetLineBBox(char* text, glm::vec2* pen);
-		glm::vec4 AddText(char *text, ftgl::vertex_buffer_t* pBuffer, glm::vec4 * color, glm::vec2 * pen);
+		glm::vec4 GetLineBBox(wchar_t* text, glm::vec2* pen);
+		glm::vec4 AddText(wchar_t *text, ftgl::vertex_buffer_t* pBuffer, glm::vec4 * color, glm::vec2 * pen);
 		void RenderHint();
 		void RenderCursor();
 		int GetCursorFromClick(glm::vec2 pos);
 		void _EnableSelection(int startIndex, int endIndex);
 		void _ReactOnClick();
+		void _SetText(const std::wstring& text);
+
 	private:
 		bool mSimulateSroll = false;
 		e3::Element* mScrollView = nullptr;
@@ -97,7 +101,7 @@ namespace e3
 		struct 
 		{
 			GLuint VAO;
-			Carbon::Buffer *vertexBuffer;
+			e3::GLBuffer *vertexBuffer;
 			Carbon::ShaderProgram* ShaderProgram = nullptr;
 			float LastDiff;
 		} mCursor;

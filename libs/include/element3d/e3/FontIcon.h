@@ -4,7 +4,8 @@
 #include "Element.h"
 #include "Font.h"
 #include "AssetManager.h"
-#include <Carbon/Texture.h>
+#include <e3/GLTexture.h>
+#include <e3/GLShaderProgram.h>
 
 namespace e3
 {

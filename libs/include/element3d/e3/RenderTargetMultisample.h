@@ -1,8 +1,8 @@
 #ifndef __CARBON_RENDER_TARGET_MULTISAMPLE__
 #define __CARBON_RENDER_TARGET_MULTISAMPLE__
 
-#include "Carbon.h"
-#include <Carbon/Texture.h>
+//#include "Carbon.h"
+#include <e3/GLTexture.h>
 
 namespace e3
 {

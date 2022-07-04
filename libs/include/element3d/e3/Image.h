@@ -9,6 +9,7 @@
 #include <string>
 #include <map>
 #include <memory>
+#include <future>
 
 class Texture;
 
@@ -25,9 +26,11 @@ namespace e3
 		RGBA
 	};
 
+	// class OnLoadCallback : public
+	typedef Callback<void(void)> OnLoadCallback;
+
 	class Image
 	{
-		typedef Callback<void(void)> OnLoadCallback;
 	public:
 		Image();
 		~Image();
@@ -41,8 +44,12 @@ namespace e3
 
 	public:
 		bool Load(const std::string& filename);
-		void Load(const std::string& filename, OnImageLoadCallback1 callback);
+		void LoadAsync(const std::string& filename, OnLoadCallback* callback);
+
 		void LoadFile(const std::string& filename, std::shared_ptr<OnLoadCallback> callback);
+		static std::shared_ptr<e3::Image> LoadAssetAsync(const std::string& filename);
+
+		static std::future<std::shared_ptr<e3::Image>> LoadAsset(const std::string& filename);
 		static void Load(const std::string& filename, OnImageLoadCallback callback);
 		void Save(const std::string& filename);
 		//static std::shared_ptr<e3::Image> LoadAsset(int id);
@@ -59,11 +66,15 @@ namespace e3
 
 	private:
 		void LoadThreadWorker2(const std::string& filename, std::shared_ptr<OnLoadCallback> callback);
+		void LoadAssetAsyncWorker(const std::string& filename);
 		static void LoadThreadWorker(const std::string& filename, OnImageLoadCallback callback);
+		static std::shared_ptr<e3::Image> ImageLoadThreadWorker(const std::string& filename);
+
                 //void LoadThreadWorker1(const std::string& filename, OnImageLoadCallback1 callback);
 
 	private:
 		unsigned char* mData = nullptr;
+		std::string mFilename;
 		int mWidth = 0;
 		int mHeight = 0;
 		int mNumChannels;
@@ -72,13 +83,15 @@ namespace e3
 
 	private:
 		// static std::map<std::string, std::shared_ptr<e3::Image>> mLoadedUrls;
-		static std::map<int, std::shared_ptr<e3::Image>> mLoadedAssets;
+		static std::map<std::string, std::shared_ptr<e3::Image>> mLoadedAssets;
 		std::function<void()> mUiRunnable;
-		//std::thread mThread;
+		Callback<void()>* mUiThreadRunnable = nullptr;
+		std::thread mThread;
         OnLoadCallback* mCall = nullptr;
 		float mOpacity = 1.0f;
 
 		int mNVGImage = -1;
+		bool mDestructing = false;
 
 		friend class NVGRenderer;
 	};

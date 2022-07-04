@@ -1,7 +1,6 @@
 #ifndef __E3_ENUM__
 #define __E3_ENUM__
 
-#include <Carbon.h>
 #include "CarbonKeys.h"
 
 namespace e3
@@ -185,6 +184,14 @@ namespace e3
 		End
 	};
 
+	enum class EBackgroundType 
+	{
+		Color,
+		Image,
+		LinearGradient,
+		RadialGradient
+	};
+
 	enum class EPositionType
 	{
 		Relative,
@@ -200,6 +207,7 @@ namespace e3
 	enum class EUnit
 	{
 		Pixel,
+		Dp,
 		Point,
 		Percent,
 	};

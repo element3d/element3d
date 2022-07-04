@@ -2,8 +2,9 @@
 #define __E3_TEXTAREA__
 
 #include "Element.h"
-#include "ScrollView.h"
 #include <e3/Font.h>
+#include <e3/GLBuffer.h>
+#include <e3/GLShaderProgram.h>
 
 namespace ftgl
 {
@@ -36,6 +37,8 @@ namespace e3
 
 	public:
 		void OnKey(e3::EKey key, char c);
+		void OnKey(e3::EKey key, int mods, unsigned short c);
+
 		bool OnClick(MouseEvent* pEvent) override;
 		bool OnMouseLongDown(MouseEvent* pEvent) override;
 
@@ -44,14 +47,15 @@ namespace e3
 		virtual void Unfocus() override;
 
 	private:
-		void GenerateTextLines(const std::string& text);
-		void GenerateSubLines(const std::string& line);
-		void GenerateLineCharacterRects(const std::string& line, std::vector<e3::Rect2f>& rects);
+		void GenerateTextLines(const std::wstring& text);
+		void _UpdateTextLines();
+		void GenerateSubLines(const std::wstring& line);
+		void GenerateLineCharacterRects(const std::wstring& line, std::vector<e3::Rect2f>& rects);
 		void CreateTextBuffer();
 		void UpdateCursorPosition();
-		std::vector<std::string>& GetLinesRef();
-		glm::vec4 GetLineBBox(char* text, int size, glm::vec2* pen);
-		glm::vec4 AddText(char *text, glm::vec4 * color, glm::vec2 * pen);
+		std::vector<std::wstring>& GetLinesRef();
+		glm::vec4 GetLineBBox(wchar_t* text, int size, glm::vec2* pen);
+		glm::vec4 AddText(wchar_t *text, glm::vec4 * color, glm::vec2 * pen);
 		void RenderCursor();
 		int GetCursorFromClick(glm::vec2 pos);
 		struct LineSelectionInfo 
@@ -68,14 +72,16 @@ namespace e3
 		void SelectionEndMoveDown();
 		void UpdateSelectionLeftDropPosition();
 		void UpdateSelectionRightDropPosition();
+		void _SetText(const std::wstring& text);
 	private:
-		ScrollView* mScrollView = nullptr;
+		e3::Element* mScrollView = nullptr;
 		Element* mTextLayout = nullptr;
 		Element* mTextSelectionBackgroundsParent;
 		std::vector<Element*> mTextSelectionBackgrounds;
 
-		std::string mText = "";
-		int mMaxNumLines = 5;
+		std::wstring mText = L"";
+		int mMaxNumLines = -1;
+		int mLineHeight;
 		struct Line 
 		{
 			int StartIndex;
@@ -84,7 +90,7 @@ namespace e3
 			int Size() { return EndIndex - StartIndex; }
 		};
 		std::vector<Line> mLineIndices;
-		std::vector<std::string> mLines;
+		std::vector<std::wstring> mLines;
 		std::vector<glm::ivec4> mLineBBoxes;
 		std::vector<std::vector<e3::Rect2f>> mCharRects;
 
@@ -97,7 +103,7 @@ namespace e3
 
 		struct
 		{
-			Carbon::Buffer *vertexBuffer;
+			e3::GLBuffer *vertexBuffer;
 			Carbon::ShaderProgram* ShaderProgram = nullptr;
 			float LastDiffX;
 			float LastDiffY;

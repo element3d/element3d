@@ -3,6 +3,7 @@
 
 #include <string>
 #include <e3/Enum.h>
+#include <vector>
 
 namespace ftgl
 {
@@ -18,7 +19,7 @@ namespace e3
 {
 	struct FontParams
 	{
-		int FontSize;
+		int FontSize = 12;
 		std::string Path;
 		std::string Family;
 		EFontStyle  Style;
@@ -43,7 +44,7 @@ namespace e3
 	public:
 		ftgl::texture_font_t* GetFtglFont() { return mFont; }
 		bool Load(int fontSize, const std::string& path);
-		ftgl::texture_glyph_t* GetGlyph(const char* codepoint);
+		ftgl::texture_glyph_t* GetGlyph(const wchar_t* codepoint);
 		FontTextureAtlas GetTextureAtlas();
 
 	private:

@@ -56,7 +56,10 @@ namespace e3
 		bool		  Inverted = false;
 		glm::vec3     ShapeOffset = glm::vec3(0);
 
+		e3::EBackgroundType BackgroundType = e3::EBackgroundType::Color;
 		e3::Background Background;
+		e3::LinearGradientParams LinearGradientParams;
+		e3::RadialGradientParams RadialGradientParams;
 		/*glm::vec4     BackgroundColor;
 		std::shared_ptr<Image> BackgroundImage;
 		glm::vec4  BackgroundImageColor;

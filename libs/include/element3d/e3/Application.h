@@ -43,7 +43,7 @@ namespace e3
 
 	public:
 		void PushElement(Element* pElement);
-		void PushElement(Element* pElement, e3::Animation* pTransitionAnimation);
+		void PushElement(Element* pElement, bool reversedOrder, e3::Animation* pTransitionAnimation);
 		void PopElement();
 		void PopElement(e3::Animation* pTransitionAnimation);
 		Element* GetElement();

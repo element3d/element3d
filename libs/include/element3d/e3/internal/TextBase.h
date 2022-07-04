@@ -3,6 +3,7 @@
 
 #include <e3/Element.h>
 #include <e3/Font.h>
+#include <e3/GLShaderProgram.h>
 
 namespace ftgl
 {
@@ -49,7 +50,7 @@ namespace _e3
 		bool mFontUpdated = true;
 
 		glm::vec2 mPen;
-		float mFontSize = 0.0f;
+		float mFontSize = 12.0f;
 		//glm::vec4 mBBox;
 		bool mElementUpdated = false;
 		bool mTextUpdated = false;

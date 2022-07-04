@@ -10,13 +10,13 @@
 #include <time.h>
 #include <chrono>
 
-#include <Carbon/Buffer.h>
+#include <e3/GLBuffer.h>
 #include <e3/Camera.h>
 #include <e3/Types.h>
 #include <e3/RenderTargetMultisample.h>
 #include <e3/RenderTarget.h>
 #include <e3/AssetManager.h>
-
+#include <e3/Timeout.h>
 typedef std::function<void(bool)> OnImageGalleryStateChangeCallback;
 typedef std::function<void(const std::string& path)> OnImageGalleryResultCallback;
 typedef std::function<void(const std::string& message)> OnInteractionCallback;
@@ -72,7 +72,7 @@ namespace e3
 		std::string GetClipboardString();
 		void SetClipboardString(const std::string& text);
 
-		void RunOnUiThread(UiThreadRunnable runnable);
+		//void RunOnUiThread(UiThreadRunnable runnable);
 		void RunOnUiThread(Callback<void(void)>* runnable);
 
 		void SetOnKeyboardStateChangeCallback(OnKeyboardStateChangeCallback onKeyboardStateChangeCallback);
@@ -155,8 +155,8 @@ namespace e3
 		glm::mat4 mProjection;
 		std::shared_ptr<Camera> mCamera = nullptr;
 		GLuint mVAO = 0;
-		Carbon::Buffer* mVertexBuffer = nullptr;
-		Carbon::Buffer* mIndexBuffer = nullptr;
+		e3::GLBuffer* mVertexBuffer = nullptr;
+		e3::GLBuffer* mIndexBuffer = nullptr;
 		e3::RenderTarget *mRenderTargetActivity = nullptr;
 
 		// Misc
@@ -165,6 +165,7 @@ namespace e3
 		bool mFirstFrame = true;
 		std::vector<Element*> mStack;
 		e3::Element* mPendingElement = nullptr;
+		bool mPendingElementReversed = false;
 		bool mUpdateRequested = false;
 		bool mBackButtonPressed = false;
 		std::mutex mBackButtonMutex;

@@ -19,20 +19,24 @@ namespace e3
 {
 	class Animation;
 	class Application;
-    class Element : public _e3::ElementBase
-    {
+	class Element : public _e3::ElementBase
+	{
 		typedef std::function<void(void)> OnLoadCallback;
-    public:
-        Element(Element* pParent = nullptr);
-        virtual ~Element();
+		typedef std::function<void(const glm::vec2&)> OnScrollCallback;
 
-    public:
+	public:
+		Element(Element* pParent = nullptr);
+		virtual ~Element();
+
+	public:
 		virtual void Build();
-        virtual void Render();
-        virtual void Update();
+		virtual void Render();
+		void Render2();
+		virtual void Update();
 		virtual void OnLoad() {}
+		virtual void OnResume() {}
 		void SetOnLoadCallback(OnLoadCallback onLoadCallback);
-
+		void SetOnScrollCallback(OnScrollCallback onScrollCallback);
 	public:
 		static Application* GetApplication();
 
@@ -82,6 +86,9 @@ namespace e3
 
 		virtual void SetParent(e3::Element* pParent);
         Element* GetParent() const;
+
+		void SetStopEvents(bool stopEvents);
+		bool GetStopEvents();
 
 		virtual void Focus();
 		virtual void Unfocus();
@@ -185,26 +192,28 @@ namespace e3
 		const float GetBorderSize() const;
 
 		void SetBorderColor(const glm::vec4 &color);
-		void SetBorderColor(const glm::vec3 &color);
 		const glm::vec4& GetBorderColor() const;
 
 		// Background color
 		virtual void SetBackgroundColor(const glm::vec4 &color);
-		virtual void SetBackgroundColor(const glm::vec3 &color);
 		virtual glm::vec4 GetBackgroundColor();
+
+		// Background gradient
+		void SetBackgroundLinearGradient(float degree, const glm::vec4& color1, const glm::vec4& color2);
+		void SetBackgroundRadialGradient(const glm::vec2& offset, float innerRadius, float outerRadius, const glm::vec4& innerColor, const glm::vec4& outerColor);
 
 		// Background image
 		void SetBackground(const e3::Background& background);
 		std::shared_ptr<Image> GetBackgroundImage();
-		std::shared_ptr<Image> GetBackgroundImage(int index);
 		void SetBackgroundImagePath(const std::string &path);
 		void SetBackgroundImage(const std::string &path);
+		void SetBackgroundImageAsync(const std::string &asset);
+		void SetBackgroundImageAsset(const std::string &asset);
 		//void SetBackgroundImage(int id);
 		void SetBackgroundImage(const std::string &path, OnImageLoadCallback callback);
 		void SetBackgroundImage(const std::string &path, OnImageLoadCallback1 callback);
 
 		void SetBackgroundImage(std::shared_ptr<Image> pImage);
-		void SetBackgroundImage(std::shared_ptr<Image> pImage, int index);
 
 		void SetBackgroundImageOpacity(float opacity);
 
@@ -326,18 +335,24 @@ namespace e3
 		void Clear();
 		void Clear(bool destroyElements);
 
+		bool Scroll(const glm::vec3& direction);
+
 		public:
 			glm::vec2 GetScrollVec();
+			void RegisterCallable(Callable* pCallable);
 
 	protected:
 		friend class Application;
 		int GetMaxStecilLayer();
 		int GetMaxStecilLayer(e3::Element* pE);
-		bool _Scroll(const glm::vec3& direction);
 		bool _ScrollUnsafe(const glm::vec3& direction);
 		int mStencilLayer = 1;
 		bool mPicked = false;
 		OnLoadCallback mOnLoadCallback = nullptr;
+		OnScrollCallback mOnScrollCallback = nullptr;
+		
+		std::vector<Callable*> mRegisteredCallables;
+		e3::Size2i mLastUpdatedScreenSize;
     };
 
 }

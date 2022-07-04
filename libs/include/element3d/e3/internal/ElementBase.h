@@ -61,9 +61,13 @@ namespace _e3
 		e3::Rect2f        mGeometry;
 		float             mOpacityUpdated = false;
 
+		void* mShape = nullptr;
+		void* mShapeTexture = nullptr;
+
 		bool mInternalTransformUpdated = true;
 		bool mRotationUpdated = true;
 		bool mScaleUpdated = true;
+		bool mHasBackgroundGradient = false;
 
 		e3::EElementState mState;
 		e3::EElementHoverState mHoverState = e3::EElementHoverState::Initial;
@@ -102,6 +106,7 @@ namespace _e3
 		bool mForcedHeight = false;
 
 		bool mFocused = false;
+		bool mStopEvents = false;
 
 		// Event callbacks
 		e3::OnClickCallback mOnClickCallback = nullptr;
