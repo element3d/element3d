@@ -184,6 +184,10 @@ namespace e3
 		void SetBorderType(EBorderType borderType);
 		EBorderType GetBorderType();
 
+        virtual void SetBorderRadiusTopLeft(const Dim& value);
+        virtual void SetBorderRadiusTopRight(const Dim& value);
+        virtual void SetBorderRadiusBottomRight(const Dim& value);
+        virtual void SetBorderRadiusBottomLeft(const Dim& value);
 		virtual void SetBorderRadius(float radius);
 		virtual void SetBorderRadius(const glm::vec4 &radius);
 		const glm::vec4& GetBorderRadius() const;
@@ -346,13 +350,20 @@ namespace e3
 		int GetMaxStecilLayer();
 		int GetMaxStecilLayer(e3::Element* pE);
 		bool _ScrollUnsafe(const glm::vec3& direction);
-		int mStencilLayer = 1;
+		int mStencilLayer = 0;
+		int mParentStencilLayer = 0;
 		bool mPicked = false;
 		OnLoadCallback mOnLoadCallback = nullptr;
 		OnScrollCallback mOnScrollCallback = nullptr;
 		
 		std::vector<Callable*> mRegisteredCallables;
 		e3::Size2i mLastUpdatedScreenSize;
+		bool mScrollStarted = false;
+		glm::vec2 mScrollSize = glm::vec2(0);
+		std::chrono::time_point<std::chrono::system_clock> mScrollXBegin;
+		std::chrono::time_point<std::chrono::system_clock> mScrollYBegin;
+		glm::vec2 mLastScrollD = glm::vec2(0);
+		e3::Animation* mScrollAnimation = nullptr;
     };
 
 }

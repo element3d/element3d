@@ -40,4 +40,4 @@ namespace e3
 	};
 }
 
-#endif __E3_I18N__
+#endif // __E3_I18N__
