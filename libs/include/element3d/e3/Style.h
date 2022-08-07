@@ -70,6 +70,7 @@ namespace e3
 		float      BorderSize;
 		glm::vec4  BorderColor;
 		glm::vec4  BorderRadius;
+		glm::vec4  BorderRadiusPercent;
 
 		EOrientation   Orientation;
 		bool           Reversed = false;
