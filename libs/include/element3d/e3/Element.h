@@ -198,6 +198,19 @@ namespace e3
 		void SetBorderColor(const glm::vec4 &color);
 		const glm::vec4& GetBorderColor() const;
 
+		// Path
+		void BeginPath();
+		void Circle(const e3::Dim& cx, const e3::Dim& cy, const e3::Dim& radius);
+		void RoundedRect(const e3::Dim& x, const e3::Dim& y, const e3::Dim& width, const e3::Dim& height, const e3::Dim& borderRadius);
+        void RoundedRect(const e3::Dim& x, const e3::Dim& y, const e3::Dim& width, const e3::Dim& height, const e3::Dim& borderRadiusTopLeft, const e3::Dim& borderRadiusTopRight, const e3::Dim& borderRadiusBottomRight, const e3::Dim& borderRadiusBottomLeft);
+		void MoveTo(const e3::Dim& x, const e3::Dim& y);
+		void LineTo(const e3::Dim& x, const e3::Dim& y);
+		void CubicTo(const e3::Dim& p1x, const e3::Dim& p1y, const e3::Dim& p2x, const e3::Dim& p2y, const e3::Dim& p3x, const e3::Dim& p3y);
+		void QuadTo(const e3::Dim& p1x, const e3::Dim& p1y, const e3::Dim& p2x, const e3::Dim& p2y);
+		void Close();
+		void EndPath();
+
+
 		// Background color
 		virtual void SetBackgroundColor(const glm::vec4 &color);
 		virtual glm::vec4 GetBackgroundColor();
@@ -364,6 +377,8 @@ namespace e3
 		std::chrono::time_point<std::chrono::system_clock> mScrollYBegin;
 		glm::vec2 mLastScrollD = glm::vec2(0);
 		e3::Animation* mScrollAnimation = nullptr;
+
+		std::vector<void*> mPathCommands;
     };
 
 }

@@ -35,6 +35,9 @@ namespace e3
 	public:
 		void SetApplication(e3::Application* pApplication);
 		void Show();
+		void* GetGLFWHandle();
+		void SwapBuffers();
+		void PollEvents();
 
 	public:
 		void SetSize(int width, int height);

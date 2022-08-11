@@ -15,7 +15,7 @@ namespace e3
 
         public:
             std::string GetFilesDir();
-            std::string GetSDCardDir();
+//            std::string GetSDCardDir();
             jobject GetAssets();
             float GetDisplayDensity();
 
